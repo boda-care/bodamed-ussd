@@ -1,0 +1,5 @@
+branch-defaults:
+  development:
+    environment: UssdTest-env
+global:
+  profile: null

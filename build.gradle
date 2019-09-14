@@ -7,16 +7,22 @@ buildscript{
     
     dependencies{
         classpath 'gradle.plugin.de.fuerstenau:BuildConfigPlugin:1.1.8'
+        classpath "gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.22.1"
+        
     }
 }
 
 plugins {
     id 'java'
     id 'application'
+    id "com.palantir.docker" version "0.22.1"
 }
+
 
 apply plugin: 'application'
 apply plugin: 'de.fuerstenau.buildconfig'
+apply plugin: "com.palantir.docker"
+
 
 
 group 'com.bodamed.ussd'
@@ -25,6 +31,27 @@ version '1.0'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 mainClassName = "com.bodamed.ussd.USSDApplication"
+
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+    from {
+        configurations.compile.collect {
+            it.isDirectory()? it: zipTree(it)
+        }
+    }
+}
+
+docker {
+    dependsOn build as Task
+    name "${jar.baseName}"
+    files jar.archivePath
+    dockerfile file('Dockerfile')
+    buildArgs(['JAR_FILE': "${jar.archiveName}"])
+}
+
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -61,4 +88,5 @@ task runApp(type: JavaExec, dependsOn: classes){
     main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
 }
+
 
