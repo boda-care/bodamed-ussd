@@ -1,0 +1,64 @@
+buildscript{
+    repositories {
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
+    }
+    
+    dependencies{
+        classpath 'gradle.plugin.de.fuerstenau:BuildConfigPlugin:1.1.8'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'application'
+}
+
+apply plugin: 'application'
+apply plugin: 'de.fuerstenau.buildconfig'
+
+
+group 'com.bodamed.ussd'
+version '1.0'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+mainClassName = "com.bodamed.ussd.USSDApplication"
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+buildConfig {
+    appName = project.name
+    version = project.version
+
+    buildConfigField 'String', 'USERNAME', properties.getProperty("api.username")
+    buildConfigField 'String', 'API_KEY', properties.getProperty("api.key")
+    clsName ='AfricasTalkingConfig'
+    packageName = project.group
+    charset = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url  "http://dl.bintray.com/africastalking/java"
+        uri ""
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile "com.sparkjava:spark-core:2.9.1"
+    compile 'com.google.code.gson:gson:2.8.5'
+    compile 'com.africastalking:core:3.4.2'
+    compile 'org.slf4j:slf4j-simple:1.7.26'
+}
+
+task runApp(type: JavaExec, dependsOn: classes){
+    description = "Ussd Server App"
+    main = mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+}
+
