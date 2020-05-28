@@ -81,6 +81,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.5'
     compile 'com.africastalking:core:3.4.2'
     compile 'org.slf4j:slf4j-simple:1.7.26'
+    compile fileTree(dir: 'libs', include: '*.jar')
 }
 
 task runApp(type: JavaExec, dependsOn: classes){

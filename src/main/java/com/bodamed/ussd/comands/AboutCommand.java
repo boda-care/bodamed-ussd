@@ -2,12 +2,11 @@ package com.bodamed.ussd.comands;
 
 import spark.Session;
 
-public class LoginCommand extends Command {
+public class AboutCommand extends Command {
     private String message;
-
-    public LoginCommand(Session session) {
+    AboutCommand(Session session) {
         super(session);
-        message = "CON Enter pin to login to BODA MED or 1 to reset pin.";
+        message = "END Boda Med is a service created for the Boda Boda Riders to help them insurer themselves and their motorcycles\n\n";
         session.attribute("message",message);
     }
 
@@ -18,6 +17,6 @@ public class LoginCommand extends Command {
 
     @Override
     public Command handle(String choice) {
-        return new MenuCommand(this.session);
+        return new MenuCommand(session);
     }
 }

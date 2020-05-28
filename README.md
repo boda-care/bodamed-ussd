@@ -1,4 +1,4 @@
-# bodamed-ussd
+# Bodamed USSD
 USSD by INUKA CONCEPTS
 
 ## Problem Definition  & Recognition
@@ -12,7 +12,7 @@ USSD by INUKA CONCEPTS
 ## Software Design
 - We have 3 system Account Service, Payments Service, USSD
 
-# Docker Image Creation
+# Docker Image Creation\
 - Build a project jar file and builds an image it
 ```
 .\gradlew docker
