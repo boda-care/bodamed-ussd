@@ -10,7 +10,8 @@ public class BenefitCommand extends Command {
     BenefitCommand(Session session) {
         super(session);
         message = "CON 1. Pay Premium\n" +
-                "2. Check Status\n\n" +
+                "2. Check Status\n" +
+                "3. Terms and Conditions\n\n" +
                 "0. Back";
         session.attribute("message",this.message);
     }
@@ -29,9 +30,11 @@ public class BenefitCommand extends Command {
         } else if(choice.equals("1")) {
             session.attribute("message","CON Enter Amount");
             return this;
-        }
-        else if (choice.equals("2")){
+        } else if (choice.equals("2")){
             session.attribute("message", "END Active");
+            return this;
+        } else if (choice.equals("3")) {
+            return new TermsAndConditionCommand(session);
         }
         return new MenuCommand(session);
     }
