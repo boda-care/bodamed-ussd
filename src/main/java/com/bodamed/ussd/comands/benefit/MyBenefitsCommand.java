@@ -10,6 +10,7 @@ public class MyBenefitsCommand extends Command {
         super(session);
         message = "CON 1.Boda Med";
         session.attribute("message",message);
+        new BenefitCommand(session);
     }
 
     @Override
