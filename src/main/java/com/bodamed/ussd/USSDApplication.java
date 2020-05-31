@@ -1,7 +1,10 @@
 package com.bodamed.ussd;
 
+import com.bodamed.ussd.api.UserApi;
 import com.bodamed.ussd.comands.LoginCommand;
 import com.bodamed.ussd.comands.RegisterCommand;
+import com.bodamed.ussd.domain.user.User;
+import com.bodamed.ussd.util.Constants;
 import spark.Session;
 
 import static spark.Spark.port;
@@ -15,10 +18,20 @@ public class USSDApplication {
         post("/ussd", (req,res)-> {
             Session session = req.session();
             session.maxInactiveInterval(10);
-            session.attribute("phoneNumber",req.queryParams("phoneNumber"));
+            session.attribute("phoneNumber",Constants.sanitizePhoneNumber(req.queryParams("phoneNumber")));
             session.attribute("sessionId",req.queryParams("sessionId"));
             session.attribute("serviceCode", req.queryParams("serviceCode"));
-            session.attribute("isUser", true);
+
+            // User phone number
+//            User user = UserApi.get().findUserByPhoneNumber(session.attribute("phoneNumber"));
+
+            User user = UserApi.get().findUserByPhoneNumber(session.attribute("phoneNumber"));
+            if(user == null) {
+                session.attribute("isUser", false);
+            } else {
+                session.attribute("isUser", true);
+                session.attribute("user", user);
+            }
 
             if(req.queryParams("text") != null){
                 session.attribute("text", req.queryParams("text"));

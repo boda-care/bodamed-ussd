@@ -13,13 +13,12 @@ public abstract class Command{
             before = commands.get(commands.size() - 1);
         }
         this.session = session;
-
         com.bodamed.ussd.session.Session.get().getCommandPath().add(this);
     }
 
     public abstract String getMessage();
 
-    Session getSession() {
+    public Session getSession() {
         return session;
     }
 

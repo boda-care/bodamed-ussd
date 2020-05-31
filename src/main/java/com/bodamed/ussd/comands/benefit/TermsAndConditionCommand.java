@@ -2,14 +2,16 @@ package com.bodamed.ussd.comands.benefit;
 
 import com.bodamed.ussd.comands.Command;
 import com.bodamed.ussd.comands.MenuCommand;
+import com.bodamed.ussd.domain.beneficiary.BenefitAccount;
 import spark.Session;
 
 public class TermsAndConditionCommand extends Command {
+    private BenefitAccount account;
     private String message;
-    TermsAndConditionCommand(Session session) {
+    TermsAndConditionCommand(Session session, BenefitAccount benefitAccount) {
         super(session);
-        boolean isAcceptedTermsAndCondition = false;
-        if(isAcceptedTermsAndCondition) {
+        this.account = benefitAccount;
+        if(benefitAccount.isTermsAndConditionsAccepted()) {
             message = "END You have accepted terms and conditions";
             session.attribute("message", message);
         } else {

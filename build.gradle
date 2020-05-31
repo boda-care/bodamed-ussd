@@ -8,7 +8,6 @@ buildscript{
     dependencies{
         classpath 'gradle.plugin.de.fuerstenau:BuildConfigPlugin:1.1.8'
         classpath "gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.22.1"
-        
     }
 }
 
@@ -22,6 +21,7 @@ plugins {
 apply plugin: 'application'
 apply plugin: 'de.fuerstenau.buildconfig'
 apply plugin: "com.palantir.docker"
+apply plugin: 'idea'
 
 
 
@@ -59,10 +59,9 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 buildConfig {
     appName = project.name
     version = project.version
-
-    buildConfigField 'String', 'USERNAME', properties.getProperty("api.username")
-    buildConfigField 'String', 'API_KEY', properties.getProperty("api.key")
-    clsName ='AfricasTalkingConfig'
+    buildConfigField 'String', 'ACCOUNT_SERVICE', properties.getProperty("account.service")
+//    buildConfigField 'String', 'API_KEY', properties.getProperty("api.key")
+    clsName ='BuildConfig'
     packageName = project.group
     charset = 'UTF-8'
 }
@@ -81,6 +80,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.5'
     compile 'com.africastalking:core:3.4.2'
     compile 'org.slf4j:slf4j-simple:1.7.26'
+    compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile fileTree(dir: 'libs', include: '*.jar')
 }
 

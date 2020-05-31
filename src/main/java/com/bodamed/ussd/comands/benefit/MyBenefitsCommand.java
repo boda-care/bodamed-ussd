@@ -1,16 +1,24 @@
 package com.bodamed.ussd.comands.benefit;
 
+import com.bodamed.ussd.api.BenefitApi;
 import com.bodamed.ussd.comands.Command;
-import com.bodamed.ussd.comands.MenuCommand;
+import com.bodamed.ussd.domain.beneficiary.BenefitAccount;
+import com.bodamed.ussd.domain.user.User;
 import spark.Session;
+
+import java.util.List;
 
 public class MyBenefitsCommand extends Command {
     private String message;
+    private List<BenefitAccount> accounts;
     public MyBenefitsCommand(Session session) {
         super(session);
-        message = "CON 1.Boda Med";
-        session.attribute("message",message);
-        new BenefitCommand(session);
+        User user = session.attribute("user");
+        accounts = BenefitApi.get().getBeneficiaryAccounts(user.getId());
+        message = session.attribute("message");
+        if(accounts.size() == 1) {
+            new BenefitCommand(session, accounts.get(0));
+        }
     }
 
     @Override
@@ -20,9 +28,6 @@ public class MyBenefitsCommand extends Command {
 
     @Override
     public Command handle(String choice) {
-        if(choice.equals("1")) {
-            return new BenefitCommand(session);
-        }
-        return new MenuCommand(session);
+        return new BenefitCommand(session, accounts.get(0));
     }
 }
