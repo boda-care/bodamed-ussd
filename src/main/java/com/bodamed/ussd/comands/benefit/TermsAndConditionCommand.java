@@ -1,5 +1,6 @@
 package com.bodamed.ussd.comands.benefit;
 
+import com.bodamed.ussd.api.BenefitApi;
 import com.bodamed.ussd.comands.Command;
 import com.bodamed.ussd.comands.MenuCommand;
 import com.bodamed.ussd.domain.beneficiary.BenefitAccount;
@@ -15,7 +16,7 @@ public class TermsAndConditionCommand extends Command {
             message = "END You have accepted terms and conditions";
             session.attribute("message", message);
         } else {
-            message = "CON 1 to  accepted terms and conditions";
+            message = "CON Accept terms and conditions \n\n 1. Accept\n99. Cancel";
             session.attribute("message", message);
         }
     }
@@ -28,7 +29,15 @@ public class TermsAndConditionCommand extends Command {
     @Override
     public Command handle(String choice) {
         if(choice.equals("1")) {
-            session.attribute("message", "END Successfully accepted Terms an conditions");
+            account = BenefitApi.get().acceptTermsAndConditions(account);
+            if(account.getStatus() != null) {
+                session.attribute("message", "END Successfully accepted Terms an conditions");
+            } else {
+                session.attribute("message", "END Unsuccessful Request");
+            }
+            return this;
+        } else if (choice.equals("99")) {
+            session.attribute("message", "END Thank you for choosing Boda Med");
             return this;
         }
         return new MenuCommand(session);

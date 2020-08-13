@@ -1,11 +1,8 @@
 package com.bodamed.ussd.util;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import okhttp3.*;
 import com.bodamed.ussd.BuildConfig;
-
-import java.util.List;
 
 public class Constants {
     private static OkHttpClient client = new OkHttpClient();
@@ -16,6 +13,13 @@ public class Constants {
     public static String loginURI = BuildConfig.ACCOUNT_SERVICE + "/user/login";
     public static String getUserByPhoneNumberURI = BuildConfig.ACCOUNT_SERVICE + "/user/userByPhoneNumber";
     public static String getBenefitByNameURI = BuildConfig.ACCOUNT_SERVICE + "/benefit/name";
+    public static String getAccountBalance  = BuildConfig.ACCOUNT_SERVICE + "/finance/balance";
+    public static String getPackagePremiums  = BuildConfig.ACCOUNT_SERVICE + "/account/insurance_premiums";
+    public static String initializeSTKPush  = BuildConfig.ACCOUNT_SERVICE + "/finance/initateStkPush";
+    public static String acceptTandCs = BuildConfig.ACCOUNT_SERVICE + "/account/acceptTermsAndConditions";
+    public static String payPremium = BuildConfig.ACCOUNT_SERVICE + "/account/payPremium";
+    public static String getCommonCovers = BuildConfig.ACCOUNT_SERVICE + "/claim/commonCovers";
+    public static String createClaim = BuildConfig.ACCOUNT_SERVICE + "/claim";
 
     public static <T, E> E createPostRequest(String URI, T arg, Class<E> target) {
         try {

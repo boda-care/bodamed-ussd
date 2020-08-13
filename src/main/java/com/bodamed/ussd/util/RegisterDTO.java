@@ -10,6 +10,7 @@ public class RegisterDTO {
     private String firstName;
     private String secondName;
     private String lastName;
+    private int idNumber;
     private String contact;
     private Contact.ContactType contactType;
     private String password;
@@ -54,7 +55,6 @@ public class RegisterDTO {
         return secondName;
     }
 
-
     public static class Builder {
         private RegisterDTO registerDTO;
         public Builder() {
@@ -79,6 +79,10 @@ public class RegisterDTO {
         }
         public Builder setLastName(String lastName){
             this.registerDTO.lastName = lastName;
+            return this;
+        }
+        public Builder setIdNumber(int idNumber){
+            this.registerDTO.idNumber = idNumber;
             return this;
         }
         public Builder setContact(String contact){

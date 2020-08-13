@@ -9,7 +9,9 @@ public class BenefitAccount {
     private long id;
     private long financeId;
     private List<BenefitAccountEvent> events;
+    private List<InsuranceCover> covers;
     private Benefit benefit;
+    private long insurancePackageId;
     private boolean termsAndConditionsAccepted;
     private Status status;
 
@@ -29,6 +31,14 @@ public class BenefitAccount {
         return id;
     }
 
+    public void setInsurancePackageId(long insurancePackageId) {
+        this.insurancePackageId = insurancePackageId;
+    }
+
+    public long getInsurancePackageId() {
+        return insurancePackageId;
+    }
+
     public List<BenefitAccountEvent> getEvents() {
         return events;
     }
@@ -39,6 +49,14 @@ public class BenefitAccount {
 
     public void setBenefit(Benefit benefit) {
         this.benefit = benefit;
+    }
+
+    public void setCovers(List<InsuranceCover> covers) {
+        this.covers = covers;
+    }
+
+    public List<InsuranceCover> getCovers() {
+        return covers;
     }
 
     public void setTermsAndConditionsAccepted(boolean termsAndConditionsAccepted) {
