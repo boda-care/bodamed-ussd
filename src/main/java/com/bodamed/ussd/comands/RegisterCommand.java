@@ -20,6 +20,7 @@ public class RegisterCommand extends Command {
     private boolean isRegistering = false;
     private Benefit benefit;
     private String idNumber;
+    private String nhIfNumber;
     private Beneficiary.Gender gender;
 
     public RegisterCommand(Session session) {
@@ -56,6 +57,9 @@ public class RegisterCommand extends Command {
                 session.attribute("message","CON Enter your id number");
             } else if (idNumber == null) {
                 this.idNumber = choice;
+                session.attribute("message","CON Enter NHIF number");
+            } else if (nhIfNumber == null) {
+                this.nhIfNumber = choice;
                 session.attribute("message","CON Enter gender\n\n 1. Male\n 2. Female\n");
             } else if (gender == null) {
                 this.gender = Beneficiary.Gender.MALE;
@@ -89,6 +93,7 @@ public class RegisterCommand extends Command {
                             .setSecondName(secondName)
                             .setLastName(lastName)
                             .setIdNumber(Integer.parseInt(idNumber))
+                            .setNhifNumber(nhIfNumber)
                             .setPassword(password)
                             .setGender(gender)
                             .setRelationship(Relationship.ACCOUNT_HOLDER).build();

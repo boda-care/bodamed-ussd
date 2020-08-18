@@ -2,28 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="12fbacc0-26e9-49fb-9fc4-3a9e23dfccd8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/api/ClaimApi.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/api/FinanceApi.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/PayPremiumCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/SaveCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/claim/ClaimCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/beneficiary/InsuranceCover.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/beneficiary/InsurancePremium.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/claim/Claim.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/claim/ClaimProcessor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/claim/ClaimProcessorContract.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/finance/Balance.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/finance/Finance.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/finance/TransactionType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/util/LipaMpesaDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/api/BenefitApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/api/BenefitApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/RegisterCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/RegisterCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/BenefitCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/BenefitCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/TermsAndConditionCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/TermsAndConditionCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/beneficiary/BenefitAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/beneficiary/BenefitAccount.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/user/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/util/Constants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/util/RegisterDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/util/RegisterDTO.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
