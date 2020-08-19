@@ -6,6 +6,7 @@ import com.bodamed.ussd.domain.beneficiary.Benefit;
 import com.bodamed.ussd.domain.beneficiary.Relationship;
 import com.bodamed.ussd.domain.user.Contact;
 import com.bodamed.ussd.util.RegisterDTO;
+import com.google.gson.Gson;
 import spark.Session;
 
 import java.time.LocalDate;
@@ -81,6 +82,7 @@ public class RegisterCommand extends Command {
                 this.password = choice;
                 session.attribute("message","CON Confirm password");
             } else {
+                System.out.println(" " + password + " " + choice + " " + nhIfNumber);
                 if(choice.equals(password)) {
                     //Okay
                     RegisterDTO registerDTO = new RegisterDTO.Builder()
@@ -93,10 +95,11 @@ public class RegisterCommand extends Command {
                             .setSecondName(secondName)
                             .setLastName(lastName)
                             .setIdNumber(Integer.parseInt(idNumber))
-                            .setNhifNumber(nhIfNumber)
+                            .setNhIfNumber(nhIfNumber)
                             .setPassword(password)
                             .setGender(gender)
                             .setRelationship(Relationship.ACCOUNT_HOLDER).build();
+                    System.out.println(new Gson().toJson(registerDTO));
                     Beneficiary beneficiary = BenefitApi.get().createBeneficiary(registerDTO);
                     if(beneficiary != null) {
                         session.attribute("message","END Successfully Registered");
@@ -109,6 +112,7 @@ public class RegisterCommand extends Command {
                 }
             }
         } catch (Exception ex) {
+            System.out.println(ex.getMessage());
             session.attribute("message", "END Invalid Registration Details");
         }
         return this;

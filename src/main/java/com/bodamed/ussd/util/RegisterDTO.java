@@ -115,7 +115,7 @@ public class RegisterDTO {
             return this;
         }
 
-        public Builder setNhifNumber(String nhIfNumber){
+        public Builder setNhIfNumber(String nhIfNumber){
             this.registerDTO.nhIfNumber = nhIfNumber;
             return this;
         }
