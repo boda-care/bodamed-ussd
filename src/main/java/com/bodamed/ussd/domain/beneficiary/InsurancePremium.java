@@ -8,6 +8,7 @@ public class InsurancePremium {
     private long id;
     private Type type;
     private double amount;
+    private long insurancePackageId;
     private Balance.Currency currency;
 
     public void setAmount(double amount) {
@@ -40,6 +41,14 @@ public class InsurancePremium {
 
     public Type getType() {
         return type;
+    }
+
+    public long getInsurancePackageId() {
+        return insurancePackageId;
+    }
+
+    public void setInsurancePackageId(long insurancePackageId) {
+        this.insurancePackageId = insurancePackageId;
     }
 
     public enum Type {

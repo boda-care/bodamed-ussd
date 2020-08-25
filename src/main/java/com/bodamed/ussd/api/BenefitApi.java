@@ -1,10 +1,8 @@
 package com.bodamed.ussd.api;
 
-import com.bodamed.ussd.domain.beneficiary.Beneficiary;
-import com.bodamed.ussd.domain.beneficiary.Benefit;
-import com.bodamed.ussd.domain.beneficiary.BenefitAccount;
-import com.bodamed.ussd.domain.beneficiary.InsurancePremium;
+import com.bodamed.ussd.domain.beneficiary.*;
 import com.bodamed.ussd.domain.finance.Finance;
+import com.bodamed.ussd.util.AccountPremiumDTO;
 import com.bodamed.ussd.util.Constants;
 import com.bodamed.ussd.util.RegisterDTO;
 import com.google.gson.Gson;
@@ -47,6 +45,18 @@ public class BenefitApi {
     public Finance payPremium(long accountId, InsurancePremium premium) {
         final String url = Constants.payPremium.concat("?accountId=").concat(Long.toString(accountId));
         return Constants.createPostRequest(url, premium, Finance.class);
+    }
+
+    public Finance payForExpiredAccount(AccountPremiumDTO accountPremiumDTO) {
+        return Constants.createPostRequest(Constants.payForExpiredAccount, accountPremiumDTO, Finance.class);
+    }
+
+    public List<InsuranceCoverBalance> getPackageBalance(long beneficiaryId, long packageId) {
+        final String url = Constants.getInsuranceCoverBalance.concat("?beneficiaryId=")
+                .concat(Long.toString(beneficiaryId)).concat("&packageId=").concat(Long.toString(packageId));
+        String response = Constants.createGetRequest(url);
+        System.out.println(response);
+        return new Gson().fromJson(response, new TypeToken<List<InsuranceCoverBalance>>(){}.getType());
     }
 
     public static BenefitApi get() {

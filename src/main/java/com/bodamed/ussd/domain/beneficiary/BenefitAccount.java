@@ -12,6 +12,9 @@ public class BenefitAccount {
     private List<InsuranceCover> covers;
     private Benefit benefit;
     private long insurancePackageId;
+    private boolean isExpired;
+    private double creditAmount;
+    private String expiryDate;
     private boolean termsAndConditionsAccepted;
     private Status status;
 
@@ -61,6 +64,30 @@ public class BenefitAccount {
 
     public void setTermsAndConditionsAccepted(boolean termsAndConditionsAccepted) {
         this.termsAndConditionsAccepted = termsAndConditionsAccepted;
+    }
+
+    public double getCreditAmount() {
+        return creditAmount;
+    }
+
+    public boolean isExpired() {
+        return isExpired;
+    }
+
+    public String getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setCreditAmount(double creditAmount) {
+        this.creditAmount = creditAmount;
+    }
+
+    public void setExpired(boolean expired) {
+        isExpired = expired;
+    }
+
+    public void setExpiryDate(String expiryDate) {
+        this.expiryDate = expiryDate;
     }
 
     public boolean isTermsAndConditionsAccepted() {

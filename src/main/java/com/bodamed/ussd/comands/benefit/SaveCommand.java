@@ -27,15 +27,20 @@ public class SaveCommand extends Command {
     public Command handle(String choice) {
         try {
             int amount = Integer.parseInt(choice);
-            LipaMpesaDTO lipaMpesaDTO = new LipaMpesaDTO();
-            lipaMpesaDTO.setAccountId(Long.toString(account.getId()));
-            lipaMpesaDTO.setAmount(Integer.toString(amount));
-            lipaMpesaDTO.setPhoneNumber(session.attribute("phoneNumber"));
-            lipaMpesaDTO.setTransactionType(TransactionType.SAVINGS);
+            if (amount >= 50 && amount <= 18200){
+                LipaMpesaDTO lipaMpesaDTO = new LipaMpesaDTO();
+                lipaMpesaDTO.setAccountId(Long.toString(account.getId()));
+                lipaMpesaDTO.setAmount(Integer.toString(amount));
+                lipaMpesaDTO.setPhoneNumber(session.attribute("phoneNumber"));
+                lipaMpesaDTO.setTransactionType(TransactionType.SAVINGS);
 
-            lipaMpesaDTO = FinanceApi.get().initiateSTKPush(lipaMpesaDTO);
-            System.out.println(new Gson().toJson(lipaMpesaDTO));
-            session.attribute("message", "END STK Push triggered. Thank You For Choosing Boda Med");
+                lipaMpesaDTO = FinanceApi.get().initiateSTKPush(lipaMpesaDTO);
+                System.out.println(new Gson().toJson(lipaMpesaDTO));
+                session.attribute("message", "END STK Push triggered. Thank You For Choosing Boda Med");
+            } else {
+                session.attribute("message", "END Savings amount has to be between KSH 50 and KSH 18200");
+            }
+
         }catch (Exception ex) {
             session.attribute("message", "END Unsuccessful Request");
         }

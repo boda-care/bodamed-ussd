@@ -2,9 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="12fbacc0-26e9-49fb-9fc4-3a9e23dfccd8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/beneficiary/InsuranceCoverBalance.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/util/AccountPremiumDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/RegisterCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/RegisterCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/util/RegisterDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/util/RegisterDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/api/BenefitApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/api/BenefitApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/BenefitCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/BenefitCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/PayPremiumCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/PayPremiumCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/SaveCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/SaveCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/beneficiary/BenefitAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/beneficiary/BenefitAccount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/beneficiary/InsurancePremium.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/beneficiary/InsurancePremium.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/util/Constants.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -211,12 +218,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/BenefitCommand.java</url>
-          <line>34</line>
+          <line>41</line>
           <option name="timeStamp" value="28" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/BenefitCommand.java</url>
-          <line>35</line>
+          <line>42</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -241,28 +248,24 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/BenefitCommand.java</url>
-          <line>55</line>
+          <line>74</line>
           <option name="timeStamp" value="76" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/PayPremiumCommand.java</url>
-          <line>42</line>
-          <option name="timeStamp" value="77" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/PayPremiumCommand.java</url>
-          <line>41</line>
-          <option name="timeStamp" value="78" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/bodamed/ussd/util/Constants.java</url>
-          <line>31</line>
-          <option name="timeStamp" value="80" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/bodamed/ussd/util/Constants.java</url>
           <line>33</line>
+          <option name="timeStamp" value="80" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/bodamed/ussd/util/Constants.java</url>
+          <line>35</line>
           <option name="timeStamp" value="81" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/BenefitCommand.java</url>
+          <line>16</line>
+          <properties field="account" class="com.bodamed.ussd.comands.benefit.BenefitCommand" />
+          <option name="timeStamp" value="82" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
