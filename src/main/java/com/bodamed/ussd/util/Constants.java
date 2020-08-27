@@ -22,6 +22,7 @@ public class Constants {
     public static String createClaim = BuildConfig.ACCOUNT_SERVICE + "/claim";
     public static String payForExpiredAccount = BuildConfig.ACCOUNT_SERVICE + "/account/payExpiredPremium";
     public static String getInsuranceCoverBalance  = BuildConfig.ACCOUNT_SERVICE + "/account/packageBalance";
+    public static String userController  = BuildConfig.ACCOUNT_SERVICE + "/user";
 
     public static <T, E> E createPostRequest(String URI, T arg, Class<E> target) {
         try {

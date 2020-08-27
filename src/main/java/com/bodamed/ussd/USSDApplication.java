@@ -26,11 +26,11 @@ public class USSDApplication {
 //            User user = UserApi.get().findUserByPhoneNumber(session.attribute("phoneNumber"));
 
             User user = UserApi.get().findUserByPhoneNumber(session.attribute("phoneNumber"));
+            session.attribute("user", user);
             if(user == null) {
                 session.attribute("isUser", false);
             } else {
                 session.attribute("isUser", true);
-                session.attribute("user", user);
             }
 
             if(req.queryParams("text") != null){

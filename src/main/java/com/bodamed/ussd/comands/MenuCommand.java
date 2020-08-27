@@ -23,6 +23,8 @@ public class MenuCommand extends Command {
     public Command handle(String choice) {
         if(choice.equals("1")) {
             return new MyBenefitsCommand(session);
+        } else if (choice.equals("2")) {
+            return new FeatureUnavailableCommand(session);
         } else if (choice.equals("3")) {
             return new AboutCommand(session);
         }

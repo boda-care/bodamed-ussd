@@ -33,8 +33,7 @@ public class LoginCommand extends Command {
                 return this;
             }
         } else {
-            session.attribute("message", "END feature unavailable");
-            return this;
+            return new ResetPinCommand(session);
         }
     }
 }
