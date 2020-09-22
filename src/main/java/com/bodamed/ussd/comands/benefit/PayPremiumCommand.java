@@ -21,7 +21,7 @@ public class PayPremiumCommand extends Command {
         StringBuilder builder = new StringBuilder();
         builder.append("CON ");
         int startIndex = 0;
-        if(this.account.isExpired()) {
+        if(this.account.isExpired() && this.account.getBenefit().isPrivateInsurance()) {
             startIndex = 1;
             builder.append(String.format(" %d. Activate Account (KSH %.2f)\n", startIndex, this.account.getCreditAmount()));
         }

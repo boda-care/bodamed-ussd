@@ -21,12 +21,13 @@ public class MenuCommand extends Command {
 
     @Override
     public Command handle(String choice) {
-        if(choice.equals("1")) {
-            return new MyBenefitsCommand(session);
-        } else if (choice.equals("2")) {
-            return new FeatureUnavailableCommand(session);
-        } else if (choice.equals("3")) {
-            return new AboutCommand(session);
+        switch (choice) {
+            case "1":
+                return new MyBenefitsCommand(session);
+            case "2":
+                return new FeatureUnavailableCommand(session);
+            case "3":
+                return new AboutCommand(session);
         }
         return new MenuCommand(session) ;
     }

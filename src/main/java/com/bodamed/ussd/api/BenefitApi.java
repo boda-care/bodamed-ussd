@@ -37,9 +37,9 @@ public class BenefitApi {
         return new Gson().fromJson(response, new TypeToken<List<InsurancePremium>>(){}.getType());
     }
 
-    public BenefitAccount acceptTermsAndConditions (BenefitAccount benefitAccount) {
-        final String url = Constants.acceptTandCs.concat("?accountId=").concat(Long.toString(benefitAccount.getId()));
-        return Constants.createPostRequest(url,benefitAccount, BenefitAccount.class);
+    public BenefitAccount acceptTermsAndConditions (long userId, BenefitAccount account) {
+        final String url = Constants.acceptTandCs.concat("?userId=").concat(Long.toString(userId));
+        return Constants.createPostRequest(url,account, BenefitAccount.class);
     }
 
     public Finance payPremium(long accountId, InsurancePremium premium) {
@@ -52,11 +52,16 @@ public class BenefitApi {
     }
 
     public List<InsuranceCoverBalance> getPackageBalance(long beneficiaryId, long packageId) {
-        final String url = Constants.getInsuranceCoverBalance.concat("?beneficiaryId=")
-                .concat(Long.toString(beneficiaryId)).concat("&packageId=").concat(Long.toString(packageId));
-        String response = Constants.createGetRequest(url);
-        System.out.println(response);
-        return new Gson().fromJson(response, new TypeToken<List<InsuranceCoverBalance>>(){}.getType());
+        try {
+            final String url = Constants.getInsuranceCoverBalance.concat("?beneficiaryId=")
+                    .concat(Long.toString(beneficiaryId)).concat("&packageId=").concat(Long.toString(packageId));
+            String response = Constants.createGetRequest(url);
+            System.out.println(response);
+            return new Gson().fromJson(response, new TypeToken<List<InsuranceCoverBalance>>(){}.getType());
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return null;
     }
 
     public static BenefitApi get() {

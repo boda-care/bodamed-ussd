@@ -4,6 +4,7 @@ import com.bodamed.ussd.api.BenefitApi;
 import com.bodamed.ussd.comands.Command;
 import com.bodamed.ussd.comands.MenuCommand;
 import com.bodamed.ussd.domain.beneficiary.BenefitAccount;
+import com.bodamed.ussd.domain.user.User;
 import spark.Session;
 
 public class TermsAndConditionCommand extends Command {
@@ -29,7 +30,9 @@ public class TermsAndConditionCommand extends Command {
     @Override
     public Command handle(String choice) {
         if(choice.equals("1")) {
-            account = BenefitApi.get().acceptTermsAndConditions(account);
+            User user = session.attribute("user");
+
+            account = BenefitApi.get().acceptTermsAndConditions(user.getId(), account);
             if(account.getStatus() != null) {
                 session.attribute("message", "END Successfully accepted Terms an conditions");
             } else {

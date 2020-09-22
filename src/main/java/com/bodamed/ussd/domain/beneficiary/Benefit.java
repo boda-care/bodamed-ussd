@@ -8,6 +8,7 @@ import java.util.List;
 
 public class Benefit {
     private String name;
+    private Type programType;
     private int id;
     private List<InsurancePackage> insurancePackages;
 
@@ -31,8 +32,37 @@ public class Benefit {
         this.insurancePackages = insurancePackages;
     }
 
+    public Type getProgramType() {
+        return programType;
+    }
+
+    public void setProgramType(Type programType) {
+        this.programType = programType;
+    }
+
+    public boolean isSavings(){
+        return programType == Type.SAVINGS;
+    }
+
+    public boolean isPublicInsurance() {
+        return programType == Type.PUBLIC_INSURANCE;
+    }
+
+    public boolean isPrivateInsurance() {
+        return programType == Type.PRIVATE_INSURANCE;
+    }
+
+    public boolean isInsurance(){
+        return programType == Type.PUBLIC_INSURANCE || programType == Type.PRIVATE_INSURANCE;
+    }
 
     public List<InsurancePackage> getInsurancePackages() {
         return insurancePackages;
+    }
+
+    public enum Type{
+        SAVINGS,
+        PRIVATE_INSURANCE,
+        PUBLIC_INSURANCE
     }
 }
