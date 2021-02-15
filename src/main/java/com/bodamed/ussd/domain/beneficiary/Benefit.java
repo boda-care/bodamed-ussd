@@ -44,16 +44,16 @@ public class Benefit {
         return programType == Type.SAVINGS;
     }
 
-    public boolean isPublicInsurance() {
-        return programType == Type.PUBLIC_INSURANCE;
+    public boolean isNHIF() {
+        return programType == Type.NHIF;
     }
 
-    public boolean isPrivateInsurance() {
-        return programType == Type.PRIVATE_INSURANCE;
+    public boolean isMicroInsurance() {
+        return programType == Type.MICRO_INSURANCE;
     }
 
     public boolean isInsurance(){
-        return programType == Type.PUBLIC_INSURANCE || programType == Type.PRIVATE_INSURANCE;
+        return programType == Type.NHIF || programType == Type.MICRO_INSURANCE || programType == Type.THIRD_PARTY_INSURANCE;
     }
 
     public List<InsurancePackage> getInsurancePackages() {
@@ -62,7 +62,8 @@ public class Benefit {
 
     public enum Type{
         SAVINGS,
-        PRIVATE_INSURANCE,
-        PUBLIC_INSURANCE
+        MICRO_INSURANCE,
+        THIRD_PARTY_INSURANCE,
+        NHIF
     }
 }

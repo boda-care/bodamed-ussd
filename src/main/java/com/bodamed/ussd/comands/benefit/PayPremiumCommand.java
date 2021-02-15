@@ -5,6 +5,7 @@ import com.bodamed.ussd.comands.Command;
 import com.bodamed.ussd.domain.beneficiary.BenefitAccount;
 import com.bodamed.ussd.domain.beneficiary.InsurancePremium;
 import com.bodamed.ussd.domain.finance.Finance;
+import com.bodamed.ussd.domain.user.User;
 import com.bodamed.ussd.util.AccountPremiumDTO;
 import spark.Session;
 
@@ -14,25 +15,53 @@ public class PayPremiumCommand extends Command {
     private String message;
     private List<InsurancePremium> premiums;
     private BenefitAccount account;
+    private List<BenefitAccount> accounts;
     PayPremiumCommand(Session session, BenefitAccount benefitAccount) {
         super(session);
         this.account = benefitAccount;
-        premiums = BenefitApi.get().getInsurancePremiums(benefitAccount.getInsurancePackageId());
-        StringBuilder builder = new StringBuilder();
-        builder.append("CON ");
-        int startIndex = 0;
-        if(this.account.isExpired() && this.account.getBenefit().isPrivateInsurance()) {
-            startIndex = 1;
-            builder.append(String.format(" %d. Activate Account (KSH %.2f)\n", startIndex, this.account.getCreditAmount()));
-        }
-        for (int i = 0; i < premiums.size(); i++) {
-            builder.append(String.format( "%d. %s (%s %.2f)\n", i + (startIndex + 1), premiums.get(i).getType(),
-                    premiums.get(i).getCurrency(), premiums.get(i).getAmount()));
+        // If account is pending payment fetch activation premiums
+        if(benefitAccount.isPendingPayment()) {
+            premiums = BenefitApi.get().getInsurancePreActivationPremiums(benefitAccount.getInsurancePackageId());
+        } else {
+            premiums = BenefitApi.get().getInsurancePremiums(benefitAccount.getInsurancePackageId());
         }
 
-        builder.append("\n 0.Back");
-        this.message = builder.toString();
+        if(premiums.isEmpty()) {
+            this.message = "END You cannot pay premium for you " +  account.getBenefit().getName() + " benefit. Thank you for choosing Boda Med";
+        } else {
+            StringBuilder builder = new StringBuilder();
+            builder.append("CON ");
+            int startIndex = 0;
+            if(this.account.isDefaultedPayment() && this.account.getBenefit().isInsurance() && !benefitAccount.isPendingPayment()) {
+                startIndex = 1;
+                builder.append(String.format(" %d. Activate Account (KSH %.2f)\n", startIndex, this.account.getCreditAmount()));
+            }
+            for (int i = 0; i < premiums.size(); i++) {
+                final InsurancePremium premium = premiums.get(i);
+                if(premium.getType().equals(InsurancePremium.Type.ACTIVATION_TARGET)) {
+                    builder.append(String.format( "%d. %s \n", i + (startIndex + 1), premium.getType()));
+                } else {
+                    builder.append(String.format( "%d. %s (%s %.2f)\n", i + (startIndex + 1), premium.getType(),
+                            premium.getCurrency(), premium.getAmount()));
+                }
+            }
+
+            builder.append("\n 0.Back");
+            this.message = builder.toString();
+        }
         session.attribute("message", message);
+    }
+
+    /**
+     * Pay premium for multiple accounts
+     * @param session The current session
+     */
+    PayPremiumCommand(Session session) {
+        super(session);
+        // TODO Fetch all premiums payable
+        User user = session.attribute("user");
+
+
     }
 
     @Override
@@ -43,7 +72,7 @@ public class PayPremiumCommand extends Command {
     @Override
     public Command handle(String choice) {
         try {
-            if(account.isExpired() && choice.equals("1")) {
+            if(account.isDefaultedPayment() && choice.equals("1")) {
                 AccountPremiumDTO accountPremiumDTO = new AccountPremiumDTO.Builder()
                         .setBenefitAccountId(account.getId())
                         .setAmount(account.getCreditAmount())
@@ -53,7 +82,7 @@ public class PayPremiumCommand extends Command {
                 if(finance.getId() > 0) {
                     session.attribute("message", "END Successfully Updated Account");
                 } else {
-                    session.attribute("message", "END Unsuccessful  Request");
+                    session.attribute("message", "END You have insufficient funds");
                 }
                 return this;
             }

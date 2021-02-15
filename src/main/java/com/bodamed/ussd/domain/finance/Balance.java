@@ -21,6 +21,12 @@ public class Balance {
     }
 
     public enum Currency {
-        KES
+        KES,
+        NONE {
+            @Override
+            public String toString() {
+                return "";
+            }
+        }
     }
 }

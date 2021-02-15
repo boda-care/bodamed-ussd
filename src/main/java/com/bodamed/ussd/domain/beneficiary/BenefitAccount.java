@@ -12,8 +12,9 @@ public class BenefitAccount {
     private List<InsuranceCover> covers;
     private Benefit benefit;
     private long insurancePackageId;
-    private boolean isExpired;
+    private boolean isDefaultedPayment;
     private double creditAmount;
+    private String activationDate;
     private String expiryDate;
     private boolean termsAndConditionsAccepted;
     private Status status;
@@ -46,6 +47,14 @@ public class BenefitAccount {
         return events;
     }
 
+    public String getActivationDate() {
+        return activationDate;
+    }
+
+    public void setActivationDate(String activationDate) {
+        this.activationDate = activationDate;
+    }
+
     public long getFinanceId() {
         return financeId;
     }
@@ -70,24 +79,32 @@ public class BenefitAccount {
         return creditAmount;
     }
 
-    public boolean isExpired() {
-        return isExpired;
+    public boolean isDefaultedPayment() {
+        return isDefaultedPayment;
     }
 
     public String getExpiryDate() {
         return expiryDate;
     }
 
+    public boolean isPendingPayment() {
+        return this.status == Status.PENDING_PAYMENT;
+    }
+
     public void setCreditAmount(double creditAmount) {
         this.creditAmount = creditAmount;
     }
 
-    public void setExpired(boolean expired) {
-        isExpired = expired;
+    public void setDefaultedPayment(boolean defaultedPayment) {
+        isDefaultedPayment = defaultedPayment;
     }
 
     public void setExpiryDate(String expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public boolean isActive() {
+        return this.status == Status.ACTIVE;
     }
 
     public boolean isTermsAndConditionsAccepted() {
@@ -110,6 +127,8 @@ public class BenefitAccount {
         ACTIVE,
         CLOSED,
         SUSPENDED,
-        PENDING
+        PENDING,
+        WAITING,
+        PENDING_PAYMENT
     }
 }

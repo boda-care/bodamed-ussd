@@ -5,7 +5,7 @@ import com.bodamed.ussd.api.FinanceApi;
 import com.bodamed.ussd.comands.Command;
 import com.bodamed.ussd.comands.claim.ClaimCommand;
 import com.bodamed.ussd.domain.beneficiary.BenefitAccount;
-import com.bodamed.ussd.domain.beneficiary.InsuranceCoverBalance;
+import com.bodamed.ussd.domain.beneficiary.InsuranceCoverLimit;
 import com.bodamed.ussd.domain.finance.Balance;
 import com.bodamed.ussd.domain.user.User;
 import spark.Session;
@@ -23,13 +23,15 @@ public class BenefitCommand extends Command {
         commands = new ArrayList<>();
         StringBuilder builder = new StringBuilder();
 
-        builder.append(String.format("CON %s \n\n", benefitAccount.getBenefit().getName()));
-        if(account.getBenefit().isInsurance()) {
-            builder.append(String.format("CON Expiry Date  %s \n", benefitAccount.getExpiryDate()));
+        if(account.getBenefit().isInsurance() && !account.isPendingPayment()) {
+            builder.append(String.format("CON %s \n\n", benefitAccount.getBenefit().getName()));
+            builder.append(String.format("Expiry Date  %s \n", benefitAccount.getExpiryDate()));
+        } else {
+            builder.append(String.format("CON %s \n", benefitAccount.getBenefit().getName()));
         }
 
-        if(account.getBenefit().isPrivateInsurance()) {
-            builder.append(((benefitAccount.isExpired())  ? String.format("Credit Amount : KSH %.0f \n\n", benefitAccount.getCreditAmount()) : "\n\n"));
+        if(account.getBenefit().isInsurance()) {
+            builder.append(((benefitAccount.isDefaultedPayment())  ? String.format("Credit Amount : KSH %.0f \n\n", benefitAccount.getCreditAmount()) : "\n"));
         }
 
         if(benefitAccount.getBenefit().isSavings()) {
@@ -38,9 +40,12 @@ public class BenefitCommand extends Command {
             commands.add(BenefitMenuCommand.TERMS_AND_CONDITIONS);
             commands.add(BenefitMenuCommand.CHECK_STATUS);
         } else {
-            commands.add(BenefitMenuCommand.PAY_PREMIUM);
-            commands.add(BenefitMenuCommand.CLAIM);
-            commands.add(BenefitMenuCommand.BALANCE);
+            if(!benefitAccount.getBenefit().isNHIF()){
+                commands.add(BenefitMenuCommand.LIMIT);
+            }
+            if(benefitAccount.getBenefit().isInsurance()) {
+                commands.add(BenefitMenuCommand.PAY_PREMIUM);
+            }
             commands.add(BenefitMenuCommand.TERMS_AND_CONDITIONS);
             commands.add(BenefitMenuCommand.CHECK_STATUS);
         }
@@ -77,17 +82,24 @@ public class BenefitCommand extends Command {
                 return "Pay Premium";
             }
         },
-        CLAIM{
+        CLAIM {
             @Override
             Command execute(Session session, BenefitAccount account) {
-                if(account.isExpired()) {
-                    if(account.getBenefit().isPrivateInsurance()) {
-                        session.attribute("message", "END Your account has expired. Pay premium of KSH " + account.getCreditAmount() + " to claim");
-                    } else if(account.getBenefit().isPublicInsurance()) {
-                        session.attribute("message", "END Your account has expired. Pay premium to claim");
-                    }
+                if(account.getBenefit().isNHIF()) {
+                    session.attribute("message", "END Feature Unavailable");
                 } else {
-                    return new ClaimCommand(session, account);
+                    if(account.isDefaultedPayment()) {
+                        if(account.getBenefit().isInsurance()) {
+                            session.attribute("message", "END Your account has expired. Pay premium of KSH " + account.getCreditAmount() + " to claim");
+                        }
+                    } else if(!account.isActive()) {
+                        if(account.getBenefit().isInsurance()) {
+                            session.attribute("message", "END Your account is not yet activated");
+                        }
+                    }
+                    else {
+                        return new ClaimCommand(session, account);
+                    }
                 }
                 return null;
             }
@@ -108,27 +120,12 @@ public class BenefitCommand extends Command {
                 return "Save";
             }
         },
-        BALANCE{
+        BALANCE {
             @Override
             Command execute(Session session, BenefitAccount account) {
                 if(account.getBenefit().isSavings()) {
                     final Balance balance = FinanceApi.get().getBalance(account.getFinanceId());
                     session.attribute("message", String.format(" END %s : %s %.2f\n", "Savings", balance.getCurrency(), balance.getAmount()));
-                } else {
-                    if(account.getBenefit().isPrivateInsurance()) {
-                        // Private Insurance Account
-                        final StringBuilder builder = new StringBuilder();
-                        builder.append("END Cover Balances \n\n");
-                        User user  = session.attribute("user");
-                        final List<InsuranceCoverBalance> coverBalances = BenefitApi.get().getPackageBalance(user.getBeneficiary().getId(), account.getInsurancePackageId());
-
-                        for(InsuranceCoverBalance coverBalance: coverBalances) {
-                            builder.append(String.format("%s : %s %.2f\n", coverBalance.getName(), coverBalance.getCurrency(), coverBalance.getBalance()));
-                        }
-                        session.attribute("message", builder.toString());
-                    } else {
-                        session.attribute("message", "END Feature Unavailable For This Account");
-                    }
                 }
                 return  null;
             }
@@ -136,6 +133,31 @@ public class BenefitCommand extends Command {
             @Override
             public String toString() {
                 return "Balance";
+            }
+        },
+        LIMIT {
+            @Override
+            Command execute(Session session, BenefitAccount account) {
+                if(!account.getBenefit().isNHIF()) {
+                    // Private Insurance Account
+                    final StringBuilder builder = new StringBuilder();
+                    builder.append("END Cover Limits \n\n");
+                    User user  = session.attribute("user");
+                    final List<InsuranceCoverLimit> coverLimits = BenefitApi.get().getPackageLimits(user.getBeneficiary().getId(), account.getInsurancePackageId());
+
+                    for(InsuranceCoverLimit coverLimit: coverLimits) {
+                        builder.append(String.format("%s : %s %.2f\n", coverLimit.getName(), coverLimit.getCurrency(), coverLimit.getBalance()));
+                    }
+                    session.attribute("message", builder.toString());
+                } else {
+                    session.attribute("message", "END Feature Unavailable For This Account");
+                }
+                return null;
+            }
+
+            @Override
+            public String toString() {
+                return "Limits";
             }
         },
         TERMS_AND_CONDITIONS {
@@ -149,10 +171,18 @@ public class BenefitCommand extends Command {
                 return "Terms And Conditions";
             }
         },
-        CHECK_STATUS{
+        CHECK_STATUS {
             @Override
             Command execute(Session session, BenefitAccount account) {
-                session.attribute("message", "END Your account status is " + account.getStatus());
+                if(account.getBenefit().isInsurance()) {
+                    String message = "END Your account status is " + account.getStatus();
+                    if(!account.isPendingPayment()) {
+                        message+="\n. Activation date is " + account.getActivationDate();
+                    }
+                    session.attribute("message", message);
+                } else {
+                    session.attribute("message", "END Your account status is " + account.getStatus());
+                }
                 return null;
             }
 

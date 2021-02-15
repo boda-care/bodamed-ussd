@@ -15,13 +15,15 @@ public class Constants {
     public static String getBenefitByNameURI = BuildConfig.ACCOUNT_SERVICE + "/benefit/name";
     public static String getAccountBalance  = BuildConfig.ACCOUNT_SERVICE + "/finance/balance";
     public static String getPackagePremiums  = BuildConfig.ACCOUNT_SERVICE + "/account/insurance_premiums";
+    public static String getPackagePreActivationPremiums  = BuildConfig.ACCOUNT_SERVICE + "/account/insurance_preactivation_premiums";
+    public static String getPremiumsPayable = BuildConfig.ACCOUNT_SERVICE + "/account/insurance_premiums";
     public static String initializeSTKPush  = BuildConfig.ACCOUNT_SERVICE + "/finance/initateStkPush";
     public static String acceptTandCs = BuildConfig.ACCOUNT_SERVICE + "/account/acceptTermsAndConditions";
     public static String payPremium = BuildConfig.ACCOUNT_SERVICE + "/account/payPremium";
     public static String getCommonCovers = BuildConfig.ACCOUNT_SERVICE + "/claim/commonCovers";
     public static String createClaim = BuildConfig.ACCOUNT_SERVICE + "/claim";
     public static String payForExpiredAccount = BuildConfig.ACCOUNT_SERVICE + "/account/payExpiredPremium";
-    public static String getInsuranceCoverBalance  = BuildConfig.ACCOUNT_SERVICE + "/account/packageBalance";
+    public static String getInsuranceCoverLimits = BuildConfig.ACCOUNT_SERVICE + "/account/packageLimits";
     public static String userController  = BuildConfig.ACCOUNT_SERVICE + "/user";
 
     public static <T, E> E createPostRequest(String URI, T arg, Class<E> target) {

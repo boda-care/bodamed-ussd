@@ -2,7 +2,6 @@ package com.bodamed.ussd.comands;
 
 import com.bodamed.ussd.api.BenefitApi;
 import com.bodamed.ussd.domain.beneficiary.Beneficiary;
-import com.bodamed.ussd.domain.beneficiary.Benefit;
 import com.bodamed.ussd.domain.beneficiary.Relationship;
 import com.bodamed.ussd.domain.user.Contact;
 import com.bodamed.ussd.util.RegisterDTO;
@@ -19,16 +18,13 @@ public class RegisterCommand extends Command {
     private String password;
     private String dateOfBirth;
     private boolean isRegistering = false;
-    private Benefit benefit;
     private String idNumber;
-    private String nhIfNumber;
     private Beneficiary.Gender gender;
 
     public RegisterCommand(Session session) {
         super(session);
-        this.message = "CON 1 to Register for Boda Med";
+        this.message = "CON 1 to Register for BODA CARE";
         session.attribute("message",message);
-        benefit = BenefitApi.get().getBenefitByName("Boda Med");
     }
 
     @Override
@@ -58,11 +54,8 @@ public class RegisterCommand extends Command {
                 session.attribute("message","CON Enter your id number");
             } else if (idNumber == null) {
                 this.idNumber = choice;
-                session.attribute("message","CON Enter NHIF number");
-            } else if (nhIfNumber == null) {
-                this.nhIfNumber = choice;
                 session.attribute("message","CON Enter gender\n\n 1. Male\n 2. Female\n");
-            } else if (gender == null) {
+            }  else if (gender == null) {
                 this.gender = Beneficiary.Gender.MALE;
                 if (choice.equals("2")) {
                     this.gender = Beneficiary.Gender.FEMALE;
@@ -82,20 +75,16 @@ public class RegisterCommand extends Command {
                 this.password = choice;
                 session.attribute("message","CON Confirm password");
             } else {
-                System.out.println(" " + password + " " + choice + " " + nhIfNumber);
                 if(choice.equals(password)) {
                     //Okay
                     RegisterDTO registerDTO = new RegisterDTO.Builder()
-                            .setBenefitId(benefit.getId())
                             .setContact(session.attribute("phoneNumber"))
                             .setContactType(Contact.ContactType.PHONE_NUMBER)
                             .setDateOfBirth(dateOfBirth)
-                            .setInsurancePackageId(benefit.getInsurancePackages().get(0).getId())
                             .setFirstName(firstName)
                             .setSecondName(secondName)
                             .setLastName(lastName)
                             .setIdNumber(Integer.parseInt(idNumber))
-                            .setNhIfNumber(nhIfNumber)
                             .setPassword(password)
                             .setGender(gender)
                             .setRelationship(Relationship.ACCOUNT_HOLDER).build();

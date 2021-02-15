@@ -11,7 +11,7 @@ public class LoginCommand extends Command {
 
     public LoginCommand(Session session) {
         super(session);
-        message = "CON Enter pin to login to BODA MED or 1 to reset pin.";
+        message = "CON Enter pin to login to BODA CARE or 1 to reset pin.";
         session.attribute("message",message);
     }
 

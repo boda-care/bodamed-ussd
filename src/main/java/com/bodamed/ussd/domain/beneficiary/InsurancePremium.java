@@ -52,8 +52,36 @@ public class InsurancePremium {
     }
 
     public enum Type {
-        DAILY,
-        WEEKLY,
-        MONTHLY,
+        DAILY {
+            @Override
+            public String toString() {
+                return "DAILY";
+            }
+        },
+        WEEKLY {
+            @Override
+            public String toString() {
+                return "WEEKLY";
+            }
+        },
+        MONTHLY {
+            @Override
+            public String toString() {
+                return "MONTHLY";
+            }
+        },
+        DAILY_ACTIVATION {
+            @Override
+            public String toString() {
+                return "DAILY";
+            }
+        },
+        ACTIVATION_TARGET {
+            @Override
+            public String toString() {
+                return "ACTIVATE";
+            }
+        },
+        YEARLY
     }
 }

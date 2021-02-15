@@ -6,7 +6,7 @@ public class AboutCommand extends Command {
     private String message;
     AboutCommand(Session session) {
         super(session);
-        message = "END Boda Med is a service created for the Boda Boda Riders to help them insurer themselves and their motorcycles\n\n";
+        message = "END Boda Care is a digital Boda Boda insurance cover that insurers boda boda riders and their motorcycles\n\n";
         session.attribute("message",message);
     }
 

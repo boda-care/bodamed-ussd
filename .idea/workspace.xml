@@ -2,14 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="12fbacc0-26e9-49fb-9fc4-3a9e23dfccd8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/bodamed-ussd.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/api/BenefitApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/api/BenefitApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/AboutCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/AboutCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/LoginCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/LoginCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/MenuCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/MenuCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/RegisterCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/RegisterCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/BenefitCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/BenefitCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/MyBenefitsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/MyBenefitsCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/PayPremiumCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/PayPremiumCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/TermsAndConditionCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/TermsAndConditionCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/beneficiary/Benefit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/beneficiary/Benefit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/beneficiary/BenefitAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/beneficiary/BenefitAccount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/beneficiary/InsuranceCoverBalance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/beneficiary/InsuranceCoverLimit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/beneficiary/InsurancePremium.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/beneficiary/InsurancePremium.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/finance/Balance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/domain/finance/Balance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/util/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/util/RegisterDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/util/RegisterDTO.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -71,7 +81,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1568477569506" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Core/java/Wildlife" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -215,34 +225,14 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/BenefitCommand.java</url>
-          <line>166</line>
-          <option name="timeStamp" value="28" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/BenefitCommand.java</url>
-          <line>167</line>
-          <option name="timeStamp" value="29" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/BenefitCommand.java</url>
-          <line>168</line>
-          <option name="timeStamp" value="76" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/bodamed/ussd/util/Constants.java</url>
-          <line>34</line>
-          <option name="timeStamp" value="80" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/bodamed/ussd/util/Constants.java</url>
-          <line>36</line>
-          <option name="timeStamp" value="81" />
+          <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-io/9.4.18.v20190429/844af5efe58ab23fd0166a796efef123f4cb06b0/jetty-io-9.4.18.v20190429.jar!/org/eclipse/jetty/io/ChannelEndPoint.class</url>
+          <line>53</line>
+          <option name="timeStamp" value="84" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ussd$USSDApplication.ic" NAME="USSDApplication Coverage Results" MODIFIED="1600701453957" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/ussd$USSDApplication.ic" NAME="USSDApplication Coverage Results" MODIFIED="1611005075071" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

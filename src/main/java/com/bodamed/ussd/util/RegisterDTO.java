@@ -17,7 +17,6 @@ public class RegisterDTO {
     private String dateOfBirth;
     private Relationship relationship;
     private Beneficiary.Gender gender;
-    private String nhIfNumber;
     private long agentId;
 
     public String getContact() {
@@ -54,10 +53,6 @@ public class RegisterDTO {
 
     public String getSecondName() {
         return secondName;
-    }
-
-    public String getNhIfNumber() {
-        return nhIfNumber;
     }
 
     public static class Builder {
@@ -115,10 +110,6 @@ public class RegisterDTO {
             return this;
         }
 
-        public Builder setNhIfNumber(String nhIfNumber){
-            this.registerDTO.nhIfNumber = nhIfNumber;
-            return this;
-        }
         public Builder setAgentId(long agentId){
             this.registerDTO.agentId = agentId;
             return this;
