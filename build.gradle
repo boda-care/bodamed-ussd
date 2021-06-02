@@ -1,0 +1,91 @@
+
+buildscript{
+    repositories {
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
+    }
+    
+    dependencies{
+        classpath 'gradle.plugin.de.fuerstenau:BuildConfigPlugin:1.1.8'
+        classpath "gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.22.1"
+    }
+}
+
+plugins {
+    id 'java'
+    id 'application'
+    id "com.palantir.docker" version "0.22.1"
+}
+
+
+apply plugin: 'application'
+apply plugin: 'de.fuerstenau.buildconfig'
+apply plugin: "com.palantir.docker"
+apply plugin: 'idea'
+
+
+
+group 'com.bodamed.ussd'
+version '1.0'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+mainClassName = "com.bodamed.ussd.USSDApplication"
+
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+    from {
+        configurations.compile.collect {
+            it.isDirectory()? it: zipTree(it)
+        }
+    }
+}
+
+docker {
+    dependsOn jar
+    name "${jar.baseName}"
+    files jar.archivePath
+    dockerfile file('Dockerfile')
+    buildArgs(['JAR_FILE': "${jar.archiveName}"])
+}
+
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+buildConfig {
+    appName = project.name
+    version = project.version
+    buildConfigField 'String', 'ACCOUNT_SERVICE', properties.getProperty("account.service")
+//    buildConfigField 'String', 'API_KEY', properties.getProperty("api.key")
+    clsName ='BuildConfig'
+    packageName = project.group
+    charset = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url  "http://dl.bintray.com/africastalking/java"
+        uri ""
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile "com.sparkjava:spark-core:2.9.1"
+    compile 'com.google.code.gson:gson:2.8.5'
+    compile 'org.slf4j:slf4j-simple:1.7.26'
+    compile 'com.squareup.okhttp:okhttp:2.5.0'
+    compile fileTree(dir: 'libs', include: '*.jar')
+}
+
+task runApp(type: JavaExec, dependsOn: classes){
+    description = "Ussd Server App"
+    main = mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+}

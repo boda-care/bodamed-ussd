@@ -1,0 +1,34 @@
+language: java
+os: linux
+dist: trusty
+jdk: openjdk11
+branches:
+  only:
+  - master
+script:
+- "./gradlew build --scan -s"
+- "./gradlew test"
+deploy:
+- provider: gae
+  project: bodacare
+  config: master.yaml
+  keyfile: bodacare-master-service-accout.json
+  on:
+    branch: master
+  skip_cleanup: true
+- provider: gae
+  project: bodacare
+  config: development.yaml
+  keyfile: bodacare-master-service-accout.json # Change this file to test project service account key file
+  on:
+    branch: development
+  skip_cleanup: true
+notifications:
+  slack: iconicking:4tMkxo707l7br6LE3ZSeVLVf
+before_install:
+- openssl aes-256-cbc -K $encrypted_525a3268854d_key -iv $encrypted_525a3268854d_iv
+  -in $PROPERTIES -out local.properties -d
+- openssl aes-256-cbc -K $encrypted_4e8b5b464587_key -iv $encrypted_4e8b5b464587_iv
+  -in bodacare-master-service-accout.json.enc -out bodacare-master-service-accout.json
+  -d
+# Add encryption for test service account key file
