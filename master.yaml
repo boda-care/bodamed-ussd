@@ -1,0 +1,7 @@
+runtime: java11
+env: standard
+
+runtime_config:
+  jdk: openjdk8
+
+service: ussd

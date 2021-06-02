@@ -89,5 +89,3 @@ task runApp(type: JavaExec, dependsOn: classes){
     main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
 }
-
-
