@@ -2,19 +2,17 @@ package com.bodamed.ussd.comands.benefit;
 
 import com.bodamed.ussd.api.FinanceApi;
 import com.bodamed.ussd.comands.Command;
-import com.bodamed.ussd.domain.beneficiary.BenefitAccount;
 import com.bodamed.ussd.domain.finance.TransactionType;
+import com.bodamed.ussd.domain.user.User;
 import com.bodamed.ussd.util.LipaMpesaDTO;
 import com.google.gson.Gson;
 import spark.Session;
 
 public class SaveCommand extends Command {
     private String message;
-    private BenefitAccount account;
-    SaveCommand(Session session, BenefitAccount benefitAccount) {
+    SaveCommand(Session session, double premiumDue) {
         super(session);
-        this.account = benefitAccount;
-        this.message = "CON Enter Amount \n\n0. Back";
+        this.message = "CON The premium payable today is KES " + premiumDue + "\n\nEnter Amount To Save\n0. Back";
         session.attribute("message", message);
     }
 
@@ -27,20 +25,19 @@ public class SaveCommand extends Command {
     public Command handle(String choice) {
         try {
             int amount = Integer.parseInt(choice);
-            if (amount >= 50 && amount <= 18200){
+            if (amount >= 10){
                 LipaMpesaDTO lipaMpesaDTO = new LipaMpesaDTO();
-                lipaMpesaDTO.setAccountId(Long.toString(account.getId()));
+                final User user = session.attribute("user");
+                lipaMpesaDTO.setUserId(user.getId());
                 lipaMpesaDTO.setAmount(Integer.toString(amount));
                 lipaMpesaDTO.setPhoneNumber(session.attribute("phoneNumber"));
                 lipaMpesaDTO.setTransactionType(TransactionType.SAVINGS);
-
-                lipaMpesaDTO = FinanceApi.get().initiateSTKPush(lipaMpesaDTO);
+                lipaMpesaDTO = FinanceApi.get().save(lipaMpesaDTO);
                 System.out.println(new Gson().toJson(lipaMpesaDTO));
-                session.attribute("message", "END STK Push triggered. Thank You For Choosing Boda Med");
+                session.attribute("message", "END Thank You For Choosing Boda Care");
             } else {
-                session.attribute("message", "END Savings amount has to be between KSH 50 and KSH 18200");
+                session.attribute("message", "END Savings amount has to be above ore equals to KSH 10");
             }
-
         }catch (Exception ex) {
             session.attribute("message", "END Unsuccessful Request");
         }

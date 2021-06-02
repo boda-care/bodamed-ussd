@@ -5,7 +5,7 @@ import com.bodamed.ussd.domain.finance.TransactionType;
 public class LipaMpesaDTO {
     private String phoneNumber;
     private String amount;
-    private String accountId;
+    private long userId;
     private TransactionType transactionType;
 
     public void setAmount(String amount) {
@@ -16,8 +16,8 @@ public class LipaMpesaDTO {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setAccountId(String accountId) {
-        this.accountId = accountId;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public void setTransactionType(TransactionType transactionType) {
@@ -28,8 +28,8 @@ public class LipaMpesaDTO {
         return phoneNumber;
     }
 
-    public String getAccountId() {
-        return accountId;
+    public long getUserId() {
+        return userId;
     }
 
     public String getAmount() {

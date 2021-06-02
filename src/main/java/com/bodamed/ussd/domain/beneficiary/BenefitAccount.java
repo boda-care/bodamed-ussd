@@ -18,6 +18,7 @@ public class BenefitAccount {
     private String expiryDate;
     private boolean termsAndConditionsAccepted;
     private Status status;
+    private List<Premium> premiums; // Current premiums expected by Boda Care.
 
     public void setId(long id) {
         this.id = id;
@@ -61,6 +62,14 @@ public class BenefitAccount {
 
     public void setBenefit(Benefit benefit) {
         this.benefit = benefit;
+    }
+
+    public void setPremiums(List<Premium> premiums) {
+        this.premiums = premiums;
+    }
+
+    public List<Premium> getPremiums() {
+        return premiums;
     }
 
     public void setCovers(List<InsuranceCover> covers) {
@@ -121,6 +130,10 @@ public class BenefitAccount {
 
     public Status getStatus() {
         return status;
+    }
+
+    public boolean canPayPremium () {
+       return this.benefit.isInsurance() && (this.isPendingPayment() || this.isActive());
     }
 
     public enum Status {

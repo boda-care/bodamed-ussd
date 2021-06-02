@@ -24,21 +24,20 @@ public class Session {
         command = (isUser) ? new LoginCommand(session) : new RegisterCommand(session);
         // Pin
         if(inputs[0].length() > 0) {
-            for (int i = 0; i < inputs.length ; i++) {
-                if(inputs[i].equals("0")) {
-                    if(!commandPath.isEmpty()) {
+            for (String input : inputs) {
+                if (input.equals("0")) {
+                    if (!commandPath.isEmpty()) {
                         final Command beforeCommand = command.back();
-                        if(!(beforeCommand instanceof LoginCommand)) {
+                        if (beforeCommand != null && !(beforeCommand instanceof LoginCommand)) {
                             command = beforeCommand;
                             commandPath.add(command);
                             session.attribute("message", beforeCommand.getMessage());
                         }
                     }
-                } else if (inputs[i].equals("00") && (boolean) session.attribute("isUser")){
+                } else if (input.equals("00") && (boolean) session.attribute("isUser")) {
                     command = new MenuCommand(session);
-                }
-                else {
-                    command = commandPath.get(commandPath.size() - 1).handle(inputs[i]);
+                } else {
+                    command = commandPath.get(commandPath.size() - 1).handle(input);
                 }
             }
         }

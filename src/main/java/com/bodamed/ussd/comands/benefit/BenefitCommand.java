@@ -3,15 +3,16 @@ package com.bodamed.ussd.comands.benefit;
 import com.bodamed.ussd.api.BenefitApi;
 import com.bodamed.ussd.api.FinanceApi;
 import com.bodamed.ussd.comands.Command;
-import com.bodamed.ussd.comands.claim.ClaimCommand;
 import com.bodamed.ussd.domain.beneficiary.BenefitAccount;
 import com.bodamed.ussd.domain.beneficiary.InsuranceCoverLimit;
+import com.bodamed.ussd.domain.beneficiary.Premium;
 import com.bodamed.ussd.domain.finance.Balance;
 import com.bodamed.ussd.domain.user.User;
 import spark.Session;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BenefitCommand extends Command {
     private String message;
@@ -23,28 +24,26 @@ public class BenefitCommand extends Command {
         commands = new ArrayList<>();
         StringBuilder builder = new StringBuilder();
 
-        if(account.getBenefit().isInsurance() && !account.isPendingPayment()) {
-            builder.append(String.format("CON %s \n\n", benefitAccount.getBenefit().getName()));
-            builder.append(String.format("Expiry Date  %s \n", benefitAccount.getExpiryDate()));
-        } else {
-            builder.append(String.format("CON %s \n", benefitAccount.getBenefit().getName()));
+        builder.append(String.format("CON %s \n", benefitAccount.getBenefit().getName()));
+
+        if(account.getBenefit().isInsurance() && account.canPayPremium()) {
+            // Premium Payable For The Day
+            List<Premium> dailyPremiums = benefitAccount.getPremiums().stream()
+                    .filter(dailyPremium -> dailyPremium.getType() == Premium.Type.DAILY).collect(Collectors.toList());
+
+            if(!dailyPremiums.isEmpty()) {
+                Premium premium = dailyPremiums.get(0);
+                builder.append(String.format("%s \n\n", premium.getName()));
+            }
         }
 
-        if(account.getBenefit().isInsurance()) {
-            builder.append(((benefitAccount.isDefaultedPayment())  ? String.format("Credit Amount : KSH %.0f \n\n", benefitAccount.getCreditAmount()) : "\n"));
-        }
-
+        commands.add(BenefitMenuCommand.BALANCE);
         if(benefitAccount.getBenefit().isSavings()) {
-            commands.add(BenefitMenuCommand.SAVE);
-            commands.add(BenefitMenuCommand.BALANCE);
             commands.add(BenefitMenuCommand.TERMS_AND_CONDITIONS);
             commands.add(BenefitMenuCommand.CHECK_STATUS);
         } else {
             if(!benefitAccount.getBenefit().isNHIF()){
                 commands.add(BenefitMenuCommand.LIMIT);
-            }
-            if(benefitAccount.getBenefit().isInsurance()) {
-                commands.add(BenefitMenuCommand.PAY_PREMIUM);
             }
             commands.add(BenefitMenuCommand.TERMS_AND_CONDITIONS);
             commands.add(BenefitMenuCommand.CHECK_STATUS);
@@ -71,61 +70,14 @@ public class BenefitCommand extends Command {
     }
 
     private enum BenefitMenuCommand{
-        PAY_PREMIUM {
-            @Override
-            Command execute(Session session, BenefitAccount account) {
-                return new PayPremiumCommand(session, account);
-            }
-
-            @Override
-            public String toString() {
-                return "Pay Premium";
-            }
-        },
-        CLAIM {
-            @Override
-            Command execute(Session session, BenefitAccount account) {
-                if(account.getBenefit().isNHIF()) {
-                    session.attribute("message", "END Feature Unavailable");
-                } else {
-                    if(account.isDefaultedPayment()) {
-                        if(account.getBenefit().isInsurance()) {
-                            session.attribute("message", "END Your account has expired. Pay premium of KSH " + account.getCreditAmount() + " to claim");
-                        }
-                    } else if(!account.isActive()) {
-                        if(account.getBenefit().isInsurance()) {
-                            session.attribute("message", "END Your account is not yet activated");
-                        }
-                    }
-                    else {
-                        return new ClaimCommand(session, account);
-                    }
-                }
-                return null;
-            }
-
-            @Override
-            public String toString() {
-                return "Claim";
-            }
-        },
-        SAVE{
-            @Override
-            Command execute(Session session, BenefitAccount account) {
-                return new SaveCommand(session, account);
-            }
-
-            @Override
-            public String toString() {
-                return "Save";
-            }
-        },
         BALANCE {
             @Override
             Command execute(Session session, BenefitAccount account) {
+                final Balance balance = FinanceApi.get().getBalance(account.getFinanceId());
                 if(account.getBenefit().isSavings()) {
-                    final Balance balance = FinanceApi.get().getBalance(account.getFinanceId());
                     session.attribute("message", String.format(" END %s : %s %.2f\n", "Savings", balance.getCurrency(), balance.getAmount()));
+                } else if(account.getBenefit().isInsurance()){
+                    session.attribute("message", String.format(" END %s : %s %.2f\n", "Premium Savings", balance.getCurrency(), balance.getAmount()));
                 }
                 return  null;
             }

@@ -1,8 +1,9 @@
 package com.bodamed.ussd.util;
 
 import com.google.gson.Gson;
-import okhttp3.*;
+
 import com.bodamed.ussd.BuildConfig;
+import com.squareup.okhttp.*;
 
 public class Constants {
     private static OkHttpClient client = new OkHttpClient();
@@ -17,7 +18,7 @@ public class Constants {
     public static String getPackagePremiums  = BuildConfig.ACCOUNT_SERVICE + "/account/insurance_premiums";
     public static String getPackagePreActivationPremiums  = BuildConfig.ACCOUNT_SERVICE + "/account/insurance_preactivation_premiums";
     public static String getPremiumsPayable = BuildConfig.ACCOUNT_SERVICE + "/account/insurance_premiums";
-    public static String initializeSTKPush  = BuildConfig.ACCOUNT_SERVICE + "/finance/initateStkPush";
+    public static String save  = BuildConfig.ACCOUNT_SERVICE + "/account/save";
     public static String acceptTandCs = BuildConfig.ACCOUNT_SERVICE + "/account/acceptTermsAndConditions";
     public static String payPremium = BuildConfig.ACCOUNT_SERVICE + "/account/payPremium";
     public static String getCommonCovers = BuildConfig.ACCOUNT_SERVICE + "/claim/commonCovers";

@@ -14,8 +14,8 @@ public class FinanceApi {
         return Constants.createGetRequest(url, Balance.class);
     }
 
-    public LipaMpesaDTO initiateSTKPush(LipaMpesaDTO lipaMpesaDTO) {
-        return  Constants.createPostRequest(Constants.initializeSTKPush, lipaMpesaDTO, LipaMpesaDTO.class);
+    public LipaMpesaDTO save(LipaMpesaDTO lipaMpesaDTO) {
+        return  Constants.createPostRequest(Constants.save, lipaMpesaDTO, LipaMpesaDTO.class);
     }
 
     public static FinanceApi get() {return INSTANCE;}

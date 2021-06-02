@@ -3,6 +3,7 @@ package com.bodamed.ussd.comands.benefit;
 import com.bodamed.ussd.api.BenefitApi;
 import com.bodamed.ussd.comands.Command;
 import com.bodamed.ussd.domain.beneficiary.BenefitAccount;
+import com.bodamed.ussd.domain.beneficiary.Premium;
 import com.bodamed.ussd.domain.user.User;
 import spark.Session;
 
@@ -11,9 +12,11 @@ import java.util.stream.Collectors;
 
 public class MyBenefitsCommand extends Command {
     private List<BenefitAccount> accounts;
-    private int payPremiumIndex = 0;
     private boolean isAcceptedPremium  = true;
     private String message;
+
+    private int saveChoice = 0;
+
     public MyBenefitsCommand(Session session) {
         super(session);
         try {
@@ -25,7 +28,6 @@ public class MyBenefitsCommand extends Command {
             // Check if the accounts have been accepted terms and conditions
             if(!hasAcceptedTermsAndConditions()) {
                 builder.append(String.format("%d. Accept T&Cs\n", counter));
-                counter++;
                 isAcceptedPremium = false;
             } else {
                 if (accounts.size() == 1) {
@@ -41,11 +43,14 @@ public class MyBenefitsCommand extends Command {
                 }
             }
 
-            if (this.hasAcceptedTermsAndConditions()) { // Al
-                payPremiumIndex = counter;
-                builder.append(String.format("%d. Pay Premium\n", counter));
+            if(isAcceptedPremium) {
+                saveChoice = counter;
+                builder.append(saveChoice);
+                builder.append(". ");
+                builder.append("Pay");
             }
-            builder.append("\n0. Back");
+
+            builder.append("\n\n0. Back");
             message = builder.toString();
             session.attribute("message", message);
         } catch (Exception ex) {
@@ -61,6 +66,20 @@ public class MyBenefitsCommand extends Command {
         return pendingAccounts.isEmpty();
     }
 
+    private double calculateDailyPremium(List<BenefitAccount> benefitAccounts) {
+        List<Premium> dailyPremiums = benefitAccounts.stream()
+                .filter(BenefitAccount::canPayPremium)
+                .collect(Collectors.toList())
+                .stream()
+                .map(BenefitAccount::getPremiums)
+                .map(premiums -> premiums.stream().filter(premium -> premium.getType() == Premium.Type.DAILY).findFirst().orElse(null)).collect(Collectors.toList());
+        double premiumAmount = 0;
+        for(Premium premium: dailyPremiums) {
+            premiumAmount+=premium.getAmount().getAmount();
+        }
+        return premiumAmount;
+    }
+
     @Override
     public String getMessage() {
         return message;
@@ -70,18 +89,18 @@ public class MyBenefitsCommand extends Command {
     public Command handle(String choice) {
         if(!isAcceptedPremium) {
             User user = session.attribute("user");
-            BenefitAccount account = BenefitApi.get().acceptTermsAndConditions(user.getId(), accounts.get(0));
-            if(account != null && account.getStatus() != null) {
-                session.attribute("message", "END T&Cs Accepted. Welcome to Boda Care");
-            } else {
-                session.attribute("message", "END An error occurred accepting T&Cs");
-            }
+            BenefitApi.get().acceptTermsAndConditions(user.getId(), accounts.get(0));
+            session.attribute("message", "END T&Cs Accepted. Welcome to Boda Care");
+            // TODO Fix this
+//            BenefitAccount account = BenefitApi.get().acceptTermsAndConditions(user.getId(), accounts.get(0));
+//            if(account != null && account.getStatus() != null) {
+//                session.attribute("message", "END T&Cs Accepted. Welcome to Boda Care");
+//            } else {
+//                session.attribute("message", "END An error occurred accepting T&Cs");
+//            }
             return this;
-        }
-        // TODO Pay Daily Premium
-        if(Integer.parseInt(choice) == payPremiumIndex && payPremiumIndex != 0) {
-            session.attribute("message", "END Premium Paid");
-            return this;
+        } else if (Integer.parseInt(choice) == saveChoice) {
+            return new SaveCommand(session, calculateDailyPremium(this.accounts));
         }
         return new BenefitCommand(session, accounts.get(Integer.parseInt(choice) - 1));
     }
