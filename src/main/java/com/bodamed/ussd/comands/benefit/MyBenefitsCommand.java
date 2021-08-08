@@ -54,6 +54,7 @@ public class MyBenefitsCommand extends Command {
             message = builder.toString();
             session.attribute("message", message);
         } catch (Exception ex) {
+            System.out.println(ex.getMessage());
             session.attribute("message", "END " + ex.getMessage());
         }
     }
