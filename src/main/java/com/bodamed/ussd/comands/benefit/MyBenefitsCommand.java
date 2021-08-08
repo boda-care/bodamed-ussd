@@ -91,7 +91,7 @@ public class MyBenefitsCommand extends Command {
         if(!isAcceptedPremium) {
             User user = session.attribute("user");
             BenefitApi.get().acceptTermsAndConditions(user.getId(), accounts.get(0));
-            session.attribute("message", "END T&Cs Accepted. Welcome to Boda Care");
+            session.attribute("message", "CON T&Cs Accepted. Welcome to Boda Care\n\n0. My Benefits");
             // TODO Fix this
 //            BenefitAccount account = BenefitApi.get().acceptTermsAndConditions(user.getId(), accounts.get(0));
 //            if(account != null && account.getStatus() != null) {
