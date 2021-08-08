@@ -36,7 +36,7 @@ public class SaveCommand extends Command {
                 System.out.println(new Gson().toJson(lipaMpesaDTO));
                 session.attribute("message", "END Thank You For Choosing Boda Care");
             } else {
-                session.attribute("message", "END Savings amount has to be above ore equals to KSH 10");
+                session.attribute("message", "END Savings amount has to be above or equals to KSH 10");
             }
         }catch (Exception ex) {
             session.attribute("message", "END Unsuccessful Request");
