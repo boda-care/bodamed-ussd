@@ -21,11 +21,11 @@ public class PayPremiumCommand extends Command {
 
         StringBuilder builder = new StringBuilder();
         this.premiums = this.benefitAccount.getPremiums();
-        for(final Premium account : premiums) {
+        for(final Premium premium : premiums) {
             builder.append(counter);
             builder.append(". ");
-            builder.append(String.format(Locale.ENGLISH, "%s %s %.1f",account.getType(),
-                    account.getAmount().getCurrency(), account.getAmount().getAmount()));
+            builder.append(String.format(Locale.ENGLISH, "%s %s %.0f",premium.getType(),
+                    premium.getAmount().getCurrency(), premium.getAmount().getAmount()));
             builder.append("\n");
             counter++;
         }

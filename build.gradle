@@ -37,7 +37,7 @@ mainClassName = "com.bodamed.ussd.USSDApplication"
 appengine {
     deploy {
         projectId = "boda-care";
-        version = "1"
+        version = "2"
     }
     stage {
         appEngineDirectory = project.projectDir

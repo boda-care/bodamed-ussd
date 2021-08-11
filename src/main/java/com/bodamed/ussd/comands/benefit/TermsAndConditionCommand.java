@@ -14,7 +14,7 @@ public class TermsAndConditionCommand extends Command {
         super(session);
         this.account = benefitAccount;
         if(benefitAccount.isTermsAndConditionsAccepted()) {
-            message = "END You have accepted terms and conditions";
+            message = "CON You have accepted terms and conditions\n\n 0. Back";
             session.attribute("message", message);
         } else {
             message = "CON Accept terms and conditions \n\n 1. Accept\n99. Cancel";
@@ -34,9 +34,9 @@ public class TermsAndConditionCommand extends Command {
 
             account = BenefitApi.get().acceptTermsAndConditions(user.getId(), account);
             if(account.getStatus() != null) {
-                session.attribute("message", "END Successfully accepted Terms an conditions");
+                session.attribute("message", "CON Successfully accepted Terms an conditions \n\n 0. Back");
             } else {
-                session.attribute("message", "END Unsuccessful Request");
+                session.attribute("message", "CON Unsuccessful Request\n\n 0. Back");
             }
             return this;
         } else if (choice.equals("99")) {

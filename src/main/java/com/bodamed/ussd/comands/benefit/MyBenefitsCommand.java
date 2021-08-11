@@ -67,20 +67,6 @@ public class MyBenefitsCommand extends Command {
         return pendingAccounts.isEmpty();
     }
 
-    private double calculateDailyPremium(List<BenefitAccount> benefitAccounts) {
-        List<Premium> dailyPremiums = benefitAccounts.stream()
-                .filter(BenefitAccount::canPayPremium)
-                .collect(Collectors.toList())
-                .stream()
-                .map(BenefitAccount::getPremiums)
-                .map(premiums -> premiums.stream().filter(premium -> premium.getType() == Premium.Type.DAILY).findFirst().orElse(null)).collect(Collectors.toList());
-        double premiumAmount = 0;
-        for(Premium premium: dailyPremiums) {
-            premiumAmount+=premium.getAmount().getAmount();
-        }
-        return premiumAmount;
-    }
-
     @Override
     public String getMessage() {
         return message;
@@ -101,7 +87,7 @@ public class MyBenefitsCommand extends Command {
 //            }
             return this;
         } else if (Integer.parseInt(choice) == saveChoice) {
-            return new SaveCommand(session, calculateDailyPremium(this.accounts));
+            return new SaveCommand(session, this.accounts);
         }
         return new BenefitCommand(session, accounts.get(Integer.parseInt(choice) - 1));
     }
