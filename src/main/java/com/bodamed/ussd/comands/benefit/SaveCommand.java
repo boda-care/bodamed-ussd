@@ -23,7 +23,7 @@ public class SaveCommand extends Command {
         StringBuilder builder = new StringBuilder("CON The premium payable today is KES " + calculateDailyPremium(accounts));
         builder.append(String.format(Locale.ENGLISH, "\n\n%d. %s %.0f\n", 1, "Pay daily premium @KES", calculateDailyPremium(accounts)));
         builder.append(String.format(Locale.ENGLISH, "%d. %s %.0f\n", 2, "Pay activation premium @KES", calculateActivationPremium(accounts)));
-        builder.append("\nEnter Amount To Save\n\n0. Back");
+        builder.append("\nEnter Another Premium Amount\n\n0. Back");
 
         message = builder.toString();
         session.attribute("message", message);
