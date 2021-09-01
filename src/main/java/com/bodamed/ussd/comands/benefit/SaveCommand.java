@@ -21,9 +21,9 @@ public class SaveCommand extends Command {
         super(session);
         this.accounts = accounts;
         StringBuilder builder = new StringBuilder("CON The premium payable today is KES " + calculateDailyPremium(accounts));
-        builder.append(String.format(Locale.ENGLISH, "\n\n%d. %s %.0f\n", 1, "Pay daily premium @KES", calculateDailyPremium(accounts)));
-        builder.append(String.format(Locale.ENGLISH, "%d. %s %.0f\n", 2, "Pay activation premium @KES", calculateActivationPremium(accounts)));
-        builder.append("\nEnter Another Premium Amount\n\n0. Back");
+        builder.append(String.format(Locale.ENGLISH, "\n\n%d. %s %.0f\n", 1, "Pay premium @KES", calculateDailyPremium(accounts)));
+        builder.append(String.format(Locale.ENGLISH, "%d. %s %.0f\n", 2, "Pay full premium @KES", calculateActivationPremium(accounts)));
+        builder.append("3. Pay Another Premium Amount\n\n0. Back");
 
         message = builder.toString();
         session.attribute("message", message);
@@ -37,16 +37,19 @@ public class SaveCommand extends Command {
     @Override
     public Command handle(String choice) {
         try {
-            int amount = Integer.parseInt(choice);
-            if(choice.equals("1")) {
-                save(Double.toString(calculateDailyPremium(this.accounts)));
-            } else if (choice.equals("2")) {
-                save(Double.toString(calculateActivationPremium(this.accounts)));
-            } else if (amount >= 10){
-                save(Integer.toString(amount));
-            } else {
-                message = "END Savings amount has to be above or equals to KSH 10";
-                session.attribute("message", message);
+            switch (choice) {
+                case "1":
+                    save(Double.toString(calculateDailyPremium(this.accounts)));
+                    break;
+                case "2":
+                    save(Double.toString(calculateActivationPremium(this.accounts)));
+                    break;
+                case "3":
+                    return new SaveAnotherAmountCommand(session);
+                default:
+                    message = "END Invalid Menu Choice";
+                    session.attribute("message", message);
+                    break;
             }
         }catch (Exception ex) {
             message = "END Unsuccessful Request";
@@ -55,6 +58,10 @@ public class SaveCommand extends Command {
         return this;
     }
 
+    /**
+     * Save amount directly
+     * @param amount
+     */
     private void save(String amount) {
         LipaMpesaDTO lipaMpesaDTO = new LipaMpesaDTO();
         final User user = session.attribute("user");
@@ -64,8 +71,7 @@ public class SaveCommand extends Command {
         lipaMpesaDTO.setTransactionType(TransactionType.SAVINGS);
         message = "END Thank You For Choosing Boda Care";
         session.attribute("message", message);
-        lipaMpesaDTO = FinanceApi.get().save(lipaMpesaDTO);
-        System.out.println(new Gson().toJson(lipaMpesaDTO));
+        FinanceApi.get().save(lipaMpesaDTO);
     }
 
     private double calculateDailyPremium(List<BenefitAccount> benefitAccounts) {
@@ -75,7 +81,7 @@ public class SaveCommand extends Command {
                 .map(premiums -> premiums.stream().filter(premium -> premium.getType() == Premium.Type.DAILY).findFirst().orElse(null)).collect(Collectors.toList());
         double premiumAmount = 0;
         for(Premium premium: dailyPremiums) {
-            premiumAmount+=premium.getAmount().getAmount();
+            premiumAmount+= premium.getAmount().getAmount();
         }
         return premiumAmount;
     }
@@ -90,5 +96,43 @@ public class SaveCommand extends Command {
             premiumAmount+=premium.getAmount().getAmount();
         }
         return premiumAmount;
+    }
+
+    public static class SaveAnotherAmountCommand extends  Command{
+        private String message;
+        SaveAnotherAmountCommand(Session session) {
+            super(session);
+            message = "CON Pay any other premium amount\n\n0. Back";
+            session.attribute("message", message);
+        }
+
+        @Override
+        public String getMessage() {
+            return this.message;
+        }
+
+        private void save(String amount) {
+            LipaMpesaDTO lipaMpesaDTO = new LipaMpesaDTO();
+            final User user = session.attribute("user");
+            lipaMpesaDTO.setUserId(user.getId());
+            lipaMpesaDTO.setAmount(amount);
+            lipaMpesaDTO.setPhoneNumber(session.attribute("phoneNumber"));
+            lipaMpesaDTO.setTransactionType(TransactionType.SAVINGS);
+            message = "END Thank You For Choosing Boda Care";
+            session.attribute("message", message);
+            FinanceApi.get().save(lipaMpesaDTO);
+        }
+
+        @Override
+        public Command handle(String choice) {
+            int amount = Integer.parseInt(choice);
+            if(amount < 10) {
+                message = "CON Premium should be above Ksh 10\n\n0. Back";
+                session.attribute("message", message);
+            } else {
+               save(choice); // Save amount selected
+            }
+            return this;
+        }
     }
 }
