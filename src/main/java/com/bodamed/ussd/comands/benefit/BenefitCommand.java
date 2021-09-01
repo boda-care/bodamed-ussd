@@ -1,13 +1,8 @@
 package com.bodamed.ussd.comands.benefit;
 
-import com.bodamed.ussd.api.BenefitApi;
-import com.bodamed.ussd.api.FinanceApi;
 import com.bodamed.ussd.comands.Command;
 import com.bodamed.ussd.domain.beneficiary.BenefitAccount;
-import com.bodamed.ussd.domain.beneficiary.InsuranceCoverLimit;
 import com.bodamed.ussd.domain.beneficiary.Premium;
-import com.bodamed.ussd.domain.finance.Balance;
-import com.bodamed.ussd.domain.user.User;
 import spark.Session;
 
 import java.util.ArrayList;
@@ -73,13 +68,7 @@ public class BenefitCommand extends Command {
         BALANCE {
             @Override
             Command execute(Session session, BenefitAccount account) {
-                final Balance balance = FinanceApi.get().getBalance(account.getFinanceId());
-                if(account.getBenefit().isSavings()) {
-                    session.attribute("message", String.format(" END %s : %s %.2f\n", "Savings", balance.getCurrency(), balance.getAmount()));
-                } else if(account.getBenefit().isInsurance()){
-                    session.attribute("message", String.format(" END %s : %s %.2f\n", "Premium Savings", balance.getCurrency(), balance.getAmount()));
-                }
-                return  null;
+                return new BalanceCommand(session, account);
             }
 
             @Override
@@ -90,21 +79,7 @@ public class BenefitCommand extends Command {
         LIMIT {
             @Override
             Command execute(Session session, BenefitAccount account) {
-                if(!account.getBenefit().isNHIF()) {
-                    // Private Insurance Account
-                    final StringBuilder builder = new StringBuilder();
-                    builder.append("END Cover Limits \n\n");
-                    User user  = session.attribute("user");
-                    final List<InsuranceCoverLimit> coverLimits = BenefitApi.get().getPackageLimits(user.getBeneficiary().getId(), account.getInsurancePackageId());
-
-                    for(InsuranceCoverLimit coverLimit: coverLimits) {
-                        builder.append(String.format("%s : %s %.2f\n", coverLimit.getName(), coverLimit.getCurrency(), coverLimit.getBalance()));
-                    }
-                    session.attribute("message", builder.toString());
-                } else {
-                    session.attribute("message", "END Feature Unavailable For This Account");
-                }
-                return null;
+                return new LimitsCommand(session, account);
             }
 
             @Override
@@ -126,16 +101,7 @@ public class BenefitCommand extends Command {
         CHECK_STATUS {
             @Override
             Command execute(Session session, BenefitAccount account) {
-                if(account.getBenefit().isInsurance()) {
-                    String message = "END Your account status is " + account.getStatus();
-                    if(!account.isPendingPayment()) {
-                        message+="\n. Activation date is " + account.getActivationDate();
-                    }
-                    session.attribute("message", message);
-                } else {
-                    session.attribute("message", "END Your account status is " + account.getStatus());
-                }
-                return null;
+                return new CheckStatusCommand(session, account);
             }
 
             @Override

@@ -54,6 +54,7 @@ public class MyBenefitsCommand extends Command {
             message = builder.toString();
             session.attribute("message", message);
         } catch (Exception ex) {
+            System.out.println(ex.getMessage());
             session.attribute("message", "END " + ex.getMessage());
         }
     }
@@ -66,20 +67,6 @@ public class MyBenefitsCommand extends Command {
         return pendingAccounts.isEmpty();
     }
 
-    private double calculateDailyPremium(List<BenefitAccount> benefitAccounts) {
-        List<Premium> dailyPremiums = benefitAccounts.stream()
-                .filter(BenefitAccount::canPayPremium)
-                .collect(Collectors.toList())
-                .stream()
-                .map(BenefitAccount::getPremiums)
-                .map(premiums -> premiums.stream().filter(premium -> premium.getType() == Premium.Type.DAILY).findFirst().orElse(null)).collect(Collectors.toList());
-        double premiumAmount = 0;
-        for(Premium premium: dailyPremiums) {
-            premiumAmount+=premium.getAmount().getAmount();
-        }
-        return premiumAmount;
-    }
-
     @Override
     public String getMessage() {
         return message;
@@ -90,7 +77,7 @@ public class MyBenefitsCommand extends Command {
         if(!isAcceptedPremium) {
             User user = session.attribute("user");
             BenefitApi.get().acceptTermsAndConditions(user.getId(), accounts.get(0));
-            session.attribute("message", "END T&Cs Accepted. Welcome to Boda Care");
+            session.attribute("message", "CON T&Cs Accepted. Welcome to Boda Care\n\n0. My Benefits");
             // TODO Fix this
 //            BenefitAccount account = BenefitApi.get().acceptTermsAndConditions(user.getId(), accounts.get(0));
 //            if(account != null && account.getStatus() != null) {
@@ -100,7 +87,7 @@ public class MyBenefitsCommand extends Command {
 //            }
             return this;
         } else if (Integer.parseInt(choice) == saveChoice) {
-            return new SaveCommand(session, calculateDailyPremium(this.accounts));
+            return new SaveCommand(session, this.accounts);
         }
         return new BenefitCommand(session, accounts.get(Integer.parseInt(choice) - 1));
     }

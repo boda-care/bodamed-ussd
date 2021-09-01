@@ -13,7 +13,7 @@ import static spark.Spark.port;
 import static spark.Spark.post;
 
 public class USSDApplication {
-    private static final int PORT = 5000;
+    private static final int PORT = Integer.parseInt(BuildConfig.PORT);
 
     public static void main(String[]args){
         port(PORT);

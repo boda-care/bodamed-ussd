@@ -5,10 +5,10 @@ buildscript{
             url 'https://plugins.gradle.org/m2/'
         }
     }
-    
     dependencies{
         classpath 'gradle.plugin.de.fuerstenau:BuildConfigPlugin:1.1.8'
         classpath "gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.22.1"
+        classpath 'com.google.cloud.tools:appengine-gradle-plugin:2.2.0' // App Engine Deploy Plugin
     }
 }
 
@@ -22,6 +22,7 @@ plugins {
 apply plugin: 'application'
 apply plugin: 'de.fuerstenau.buildconfig'
 apply plugin: "com.palantir.docker"
+apply plugin: "com.google.cloud.tools.appengine"
 apply plugin: 'idea'
 
 
@@ -33,6 +34,15 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 mainClassName = "com.bodamed.ussd.USSDApplication"
 
+appengine {
+    deploy {
+        projectId = "boda-care";
+        version = "2"
+    }
+    stage {
+        appEngineDirectory = project.projectDir
+    }
+}
 
 jar {
     manifest {
@@ -61,7 +71,7 @@ buildConfig {
     appName = project.name
     version = project.version
     buildConfigField 'String', 'ACCOUNT_SERVICE', properties.getProperty("account.service")
-//    buildConfigField 'String', 'API_KEY', properties.getProperty("api.key")
+    buildConfigField 'String', 'PORT', properties.getProperty("port")
     clsName ='BuildConfig'
     packageName = project.group
     charset = 'UTF-8'
@@ -71,7 +81,6 @@ repositories {
     mavenCentral()
     maven {
         url  "http://dl.bintray.com/africastalking/java"
-        uri ""
     }
 }
 

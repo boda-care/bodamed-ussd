@@ -5,7 +5,6 @@ import com.bodamed.ussd.domain.beneficiary.Beneficiary;
 import com.bodamed.ussd.domain.beneficiary.Relationship;
 import com.bodamed.ussd.domain.user.Contact;
 import com.bodamed.ussd.util.RegisterDTO;
-import com.google.gson.Gson;
 import spark.Session;
 
 import java.time.LocalDate;
@@ -17,6 +16,7 @@ public class RegisterCommand extends Command {
     private String lastName;
     private String password;
     private String dateOfBirth;
+    private String nhifNumber;
     private boolean isRegistering = false;
     private String idNumber;
     private Beneficiary.Gender gender;
@@ -51,6 +51,9 @@ public class RegisterCommand extends Command {
                 session.attribute("message","CON Enter last name");
             } else if (lastName == null) {
                 this.lastName = choice;
+                session.attribute("message","CON Enter your nhif number or 1 to skip");
+            } else if (nhifNumber == null) {
+                this.nhifNumber = choice;
                 session.attribute("message","CON Enter your id number");
             } else if (idNumber == null) {
                 this.idNumber = choice;
@@ -60,16 +63,22 @@ public class RegisterCommand extends Command {
                 if (choice.equals("2")) {
                     this.gender = Beneficiary.Gender.FEMALE;
                 }
-                session.attribute("message","CON Enter date of birth DD MM YYYY");
+                session.attribute("message","CON Enter date of birth DDMMYYYY");
             }
             else if (dateOfBirth == null) {
-                String[] dateArray = choice.split(" ");
-                if(dateArray.length == 3) {
-                    this.dateOfBirth = LocalDate.of(Integer.parseInt(dateArray[2]),
-                            Integer.parseInt(dateArray[1]), Integer.parseInt(dateArray[0])).toString();
-                    session.attribute("message","CON Enter password");
-                } else  {
-                    session.attribute("message","END Wrong Date of birth");
+                try {
+                    String[] dateArray = choice.split("");
+                    String day = dateArray[0] + dateArray[1];
+                    String month = dateArray[2] + dateArray[3];
+                    String year = dateArray[4] + dateArray[5] + dateArray[6] + dateArray[7];
+
+                    String date = day + month + year;
+                    this.dateOfBirth = LocalDate.of(Integer.parseInt(year),
+                            Integer.parseInt(month), Integer.parseInt(day)).toString();
+                    session.attribute("message","CON Enter new password");
+                } catch (Exception ex) {
+                    session.attribute("message","END Wrong date of birth input");
+                    System.out.println(ex.getMessage());
                 }
             } else if (password == null) {
                 this.password = choice;
@@ -88,7 +97,6 @@ public class RegisterCommand extends Command {
                             .setPassword(password)
                             .setGender(gender)
                             .setRelationship(Relationship.ACCOUNT_HOLDER).build();
-                    System.out.println(new Gson().toJson(registerDTO));
                     Beneficiary beneficiary = BenefitApi.get().createBeneficiary(registerDTO);
                     if(beneficiary != null) {
                         session.attribute("message","END Successfully Registered");
