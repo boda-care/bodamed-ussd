@@ -1,16 +1,16 @@
 # Bodamed USSD
-USSD by INUKA CONCEPTS
+USSD by Maxports Merchants Limited
 
 ## Problem Definition  & Recognition
 
-- Boda boda drivers need a cover to help them cater for healthcare bills and motor cycles. They are dissatisfied with the current policy as it takes longer to claim and eventully claims are not processed.
-- Boda boda industry drives the economy accounting for more than a million jobs.
+- Boda boda riders need to pay for both medical insurance and at least third party insurance but luck the money on a one of basis.
+- The platform allows them to save as low as Ksh 50 per day for their insurance covers
 
 ## Problem Solution
-- Boda Care includes 2 insurance covers Private Custom Insurance and Third Party Insurance that will be Co Payed by an under writer and the boda boda ride through Boda Med
+- Boda Care includes 2 insurance covers NHIF and Third Party Insurance that will be payed by the boda boda rider through Boda Care
 
 ## Software Design
-- We have 3 system Account Service, Payments Service, USSD
+- We have 3 system Account Service, USSD
 
 # Docker Image Creation\
 - Build a project jar file and builds an image it
