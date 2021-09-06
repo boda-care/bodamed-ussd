@@ -17,10 +17,13 @@ public class USSDApplication {
 
     public static void main(String[]args){
         port(PORT);
-        post("/ussd", // User phone number
-                //            User user = UserApi.get().findUserByPhoneNumber(session.attribute("phoneNumber"));
-                USSDApplication::handle);
+        post("/ussd", USSDApplication::handle);
     }
+
+    /**
+     * @param session Current session
+     * @return array of choices preselected by user
+     */
     private static String[] deconstructInputs(Session session) {
         return ((String) session.attribute("text")).split("\\*");
     }
@@ -32,10 +35,8 @@ public class USSDApplication {
         session.attribute("sessionId", req.queryParams("sessionId"));
         session.attribute("serviceCode", req.queryParams("serviceCode"));
 
-        // User phone number
-//            User user = UserApi.get().findUserByPhoneNumber(session.attribute("phoneNumber"));
-
         User user = UserApi.get().findUserByPhoneNumber(session.attribute("phoneNumber"));
+
         session.attribute("user", user);
         if (user == null) {
             session.attribute("isUser", false);

@@ -10,6 +10,9 @@ import spark.Session;
 
 import java.util.List;
 
+/**
+ * @deprecated Used to create claims
+ */
 public class ClaimCommand extends Command {
     private String message;
     private BenefitAccount benefitAccount;
