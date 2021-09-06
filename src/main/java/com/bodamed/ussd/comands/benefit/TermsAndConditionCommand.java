@@ -40,7 +40,7 @@ public class TermsAndConditionCommand extends Command {
             }
             return this;
         } else if (choice.equals("99")) {
-            session.attribute("message", "END Thank you for choosing Boda Med");
+            session.attribute("message", "END Thank you for choosing Boda Care");
             return this;
         }
         return new MenuCommand(session);

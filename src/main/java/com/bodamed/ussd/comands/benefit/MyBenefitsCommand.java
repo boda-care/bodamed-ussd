@@ -78,13 +78,6 @@ public class MyBenefitsCommand extends Command {
             User user = session.attribute("user");
             BenefitApi.get().acceptTermsAndConditions(user.getId(), accounts.get(0));
             session.attribute("message", "CON T&Cs Accepted. Welcome to Boda Care\n\n0. My Benefits");
-            // TODO Fix this
-//            BenefitAccount account = BenefitApi.get().acceptTermsAndConditions(user.getId(), accounts.get(0));
-//            if(account != null && account.getStatus() != null) {
-//                session.attribute("message", "END T&Cs Accepted. Welcome to Boda Care");
-//            } else {
-//                session.attribute("message", "END An error occurred accepting T&Cs");
-//            }
             return this;
         } else if (Integer.parseInt(choice) == saveChoice) {
             return new SaveCommand(session, this.accounts);

@@ -7,7 +7,7 @@ USSD by INUKA CONCEPTS
 - Boda boda industry drives the economy accounting for more than a million jobs.
 
 ## Problem Solution
-- Boda med includes 2 insurance covers Private Custom Insurance and Third Party Insurance that will be Co Payed by an under writer and the boda boda ride through Boda Med
+- Boda Care includes 2 insurance covers Private Custom Insurance and Third Party Insurance that will be Co Payed by an under writer and the boda boda ride through Boda Med
 
 ## Software Design
 - We have 3 system Account Service, Payments Service, USSD

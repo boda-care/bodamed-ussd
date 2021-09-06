@@ -8,10 +8,9 @@ public class MenuCommand extends Command {
     public MenuCommand(Session session) {
         super(session);
         message = "CON 1. My Benefits\n" +
-//                "2. Settings\n" +
                 "2. About\n\n" +
                 "0. Back";
-        session.attribute("message",message);
+        session.attribute("message", message);
     }
 
     @Override
@@ -24,8 +23,6 @@ public class MenuCommand extends Command {
         switch (choice) {
             case "1":
                 return new MyBenefitsCommand(session);
-//            case "2":
-//                return new FeatureUnavailableCommand(session);
             case "2":
                 return new AboutCommand(session);
             default:
