@@ -1,4 +1,4 @@
-# Bodamed USSD
+# Boda Care USSD
 USSD by Maxports Merchants Limited
 
 ## Problem Definition  & Recognition
