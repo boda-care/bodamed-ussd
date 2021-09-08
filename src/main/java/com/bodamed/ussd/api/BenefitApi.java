@@ -37,6 +37,14 @@ public class BenefitApi {
         return new Gson().fromJson(response, new TypeToken<List<InsurancePremium>>(){}.getType());
     }
 
+
+    public List<AgentBeneficiary> getAgentRegisteredBeneficiaries(long agentId) {
+        final String url = Constants.getAgentRegisteredUsers.concat("/").concat(Long.toString(agentId));
+        String response = Constants.createGetRequest(url);
+        return new Gson().fromJson(response, new TypeToken<List<AgentBeneficiary>>(){}.getType());
+    }
+
+
     public List<InsurancePremium> getInsurancePreActivationPremiums (long packageId) {
         final String url = Constants.getPackagePreActivationPremiums.concat("?packageId=").concat(Long.toString(packageId));
         String response = Constants.createGetRequest(url);

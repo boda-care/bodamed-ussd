@@ -3,7 +3,6 @@ package com.bodamed.ussd.comands.benefit;
 import com.bodamed.ussd.api.BenefitApi;
 import com.bodamed.ussd.comands.Command;
 import com.bodamed.ussd.domain.beneficiary.BenefitAccount;
-import com.bodamed.ussd.domain.beneficiary.Premium;
 import com.bodamed.ussd.domain.user.User;
 import spark.Session;
 

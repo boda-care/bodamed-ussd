@@ -7,6 +7,8 @@ import com.bodamed.ussd.domain.beneficiary.Beneficiary;
  */
 public class User {
     private long id;
+    private String password;
+    private Type type;
     private Beneficiary beneficiary;
 
     public void setBeneficiary(Beneficiary beneficiary) {
@@ -22,5 +24,22 @@ public class User {
     }
     public long getId() {
         return id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public boolean isAgent() {
+        return type.equals(Type.AGENT);
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    enum Type {
+        USER,
+        AGENT
     }
 }

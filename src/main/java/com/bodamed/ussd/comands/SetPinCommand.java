@@ -1,13 +1,17 @@
 package com.bodamed.ussd.comands;
 
+import com.bodamed.ussd.api.UserApi;
+import com.bodamed.ussd.domain.user.User;
 import spark.Session;
 
-public class SetPinCommand extends Command{
+public class SetPinCommand extends Command {
     private String message;
-    SetPinCommand(Session session) {
+    private String password;
+
+    public SetPinCommand(Session session) {
         super(session);
-        this.message = "CON Set New Pin \n\n 99. Cancel";
-        session.attribute("message", this.message);
+        message = "CON Set Your New Pin";
+        session.attribute("message", message);
     }
 
     @Override
@@ -17,13 +21,25 @@ public class SetPinCommand extends Command{
 
     @Override
     public Command handle(String choice) {
-        final String message = session.attribute("message");
-        if(message.contains("Confirm Password")) {
-            session.attribute("message", "END Dial *384*4105# to access this service \n\n");
-        } else if (choice.equals("99")) {
-            return new RegisterCommand(session);
-        } else {
-            session.attribute("message", "CON Confirm Password \n\n");
+        try {
+            if(password == null) {
+                this.password = choice;
+                this.message = "CON Confirm Your Pin";
+                session.attribute("message", message);
+            } else {
+                if(choice.equals(password)) { // OK
+                    // Update user pin
+                    User sessionUser = session.attribute("user");
+                    UserApi.get().resetPin(sessionUser, choice); // Update pin
+                    return new LoginCommand(session);
+                } else {
+                    this.message = "END Pins do not match";
+                    session.attribute("message", message);
+                }
+            }
+        } catch (Exception ex) {
+            this.message = "END An error occurred kindly contact support.\nThank you for Choosing Boda Care";
+            session.attribute("message", message);
         }
         return this;
     }

@@ -1,8 +1,6 @@
 package com.bodamed.ussd;
 
 import com.bodamed.ussd.api.UserApi;
-import com.bodamed.ussd.comands.LoginCommand;
-import com.bodamed.ussd.comands.RegisterCommand;
 import com.bodamed.ussd.domain.user.User;
 import com.bodamed.ussd.util.Constants;
 import spark.Request;
@@ -44,17 +42,10 @@ public class USSDApplication {
             session.attribute("isUser", true);
         }
 
-        if (req.queryParams("text") != null) {
-            session.attribute("text", req.queryParams("text"));
-            String[] inputs = deconstructInputs(session);
-            com.bodamed.ussd.session.Session.get().reconstructSessionFromUser(session, inputs, session.attribute("isUser"));
-        } else {
-            if (session.attribute("isUser")) {
-                new LoginCommand(session);
-            } else {
-                new RegisterCommand(session);
-            }
-        }
+        session.attribute("text", req.queryParams("text"));
+        String[] inputs = deconstructInputs(session);
+        com.bodamed.ussd.session.Session.get().reconstructSessionFromUser(session, inputs, session.attribute("isUser"));
+
         return session.attribute("message");
     }
 }

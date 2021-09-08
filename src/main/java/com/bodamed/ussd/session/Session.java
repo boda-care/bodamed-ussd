@@ -1,9 +1,7 @@
 package com.bodamed.ussd.session;
 
-import com.bodamed.ussd.comands.Command;
-import com.bodamed.ussd.comands.LoginCommand;
-import com.bodamed.ussd.comands.MenuCommand;
-import com.bodamed.ussd.comands.RegisterCommand;
+import com.bodamed.ussd.comands.*;
+import com.bodamed.ussd.domain.user.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +19,16 @@ public class Session {
     public void reconstructSessionFromUser(spark.Session session, String []inputs, boolean isUser) {
         commandPath = new ArrayList<>();
         Command command;
-        command = (isUser) ? new LoginCommand(session) : new RegisterCommand(session);
+        if(isUser) {
+            User user = session.attribute("user");
+            if(user.getPassword() == null) {
+                command = new SetPinCommand(session);
+            } else {
+                command = new LoginCommand(session);
+            }
+        } else {
+            command = new RegisterCommand(session);
+        }
         // Pin
         if(inputs[0].length() > 0) {
             for (String input : inputs) {

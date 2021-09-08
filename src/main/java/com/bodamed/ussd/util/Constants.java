@@ -26,6 +26,7 @@ public class Constants {
     public static String payForExpiredAccount = BuildConfig.ACCOUNT_SERVICE + "/account/payExpiredPremium";
     public static String getInsuranceCoverLimits = BuildConfig.ACCOUNT_SERVICE + "/account/packageLimits";
     public static String userController  = BuildConfig.ACCOUNT_SERVICE + "/user";
+    public static String getAgentRegisteredUsers  = BuildConfig.ACCOUNT_SERVICE + "/beneficiary/agent";
 
     public static <T, E> E createPostRequest(String URI, T arg, Class<E> target) {
         try {
