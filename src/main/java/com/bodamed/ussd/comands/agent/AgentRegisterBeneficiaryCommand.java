@@ -25,7 +25,7 @@ public class AgentRegisterBeneficiaryCommand extends Command {
 
     AgentRegisterBeneficiaryCommand(Session session) {
         super(session);
-        this.message = "CON Enter phone number in format 254";
+        this.message = "CON Enter phone number in format 254\n\n0. Back";
         session.attribute("message", message);
         agent = session.attribute("user");
     }
