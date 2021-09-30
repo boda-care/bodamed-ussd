@@ -10,6 +10,7 @@ import spark.Session;
 public class TermsAndConditionCommand extends Command {
     private BenefitAccount account;
     private String message;
+
     TermsAndConditionCommand(Session session, BenefitAccount benefitAccount) {
         super(session);
         this.account = benefitAccount;

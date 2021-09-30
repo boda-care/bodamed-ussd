@@ -1,6 +1,7 @@
 package com.bodamed.ussd.comands;
 
 import com.bodamed.ussd.api.BenefitApi;
+import com.bodamed.ussd.comands.benefit.TermsAndConditionCommand;
 import com.bodamed.ussd.domain.beneficiary.Beneficiary;
 import com.bodamed.ussd.domain.beneficiary.Relationship;
 import com.bodamed.ussd.domain.user.Contact;
@@ -98,7 +99,8 @@ public class RegisterCommand extends Command {
                             .setRelationship(Relationship.ACCOUNT_HOLDER).build();
                     Beneficiary beneficiary = BenefitApi.get().createBeneficiary(registerDTO);
                     if(beneficiary != null) {
-                        session.attribute("message","END Successfully Registered");
+                        session.attribute("message","END You Successfully Registered For BodaCare.\n " +
+                                "Dail *483*204# to accept terms and conditions.");
                     } else {
                         session.attribute("message","END Unsuccessfully Registered");
                     }

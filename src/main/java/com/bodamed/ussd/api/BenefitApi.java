@@ -51,6 +51,7 @@ public class BenefitApi {
         return new Gson().fromJson(response, new TypeToken<List<InsurancePremium>>(){}.getType());
     }
 
+    // TODO remove benefit account if not needed on endpoint
     public BenefitAccount acceptTermsAndConditions (long userId, BenefitAccount account) {
         final String url = Constants.acceptTandCs.concat("?userId=").concat(Long.toString(userId));
         return Constants.createPostRequest(url,account, BenefitAccount.class);
