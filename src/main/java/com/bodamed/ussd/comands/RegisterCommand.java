@@ -1,7 +1,6 @@
 package com.bodamed.ussd.comands;
 
 import com.bodamed.ussd.api.BenefitApi;
-import com.bodamed.ussd.comands.benefit.TermsAndConditionCommand;
 import com.bodamed.ussd.domain.beneficiary.Beneficiary;
 import com.bodamed.ussd.domain.beneficiary.Relationship;
 import com.bodamed.ussd.domain.user.Contact;
@@ -77,7 +76,7 @@ public class RegisterCommand extends Command {
                             Integer.parseInt(month), Integer.parseInt(day)).toString();
                     session.attribute("message","CON Enter new password");
                 } catch (Exception ex) {
-                    session.attribute("message","END Wrong date of birth input");
+                    session.attribute("message","CON Wrong date of birth input. Input date as DD/MM/YYYY");
                     System.out.println(ex.getMessage());
                 }
             } else if (password == null) {
@@ -99,6 +98,7 @@ public class RegisterCommand extends Command {
                             .setRelationship(Relationship.ACCOUNT_HOLDER).build();
                     Beneficiary beneficiary = BenefitApi.get().createBeneficiary(registerDTO);
                     if(beneficiary != null) {
+                        // TODO add accept terms and condition on screen
                         session.attribute("message","END You Successfully Registered For BodaCare.\n " +
                                 "Dail *483*204# to accept terms and conditions.");
                     } else {
