@@ -1,8 +1,10 @@
 package com.bodamed.ussd.comands.benefit;
 
+import com.bodamed.ussd.api.BenefitApi;
 import com.bodamed.ussd.comands.Command;
 import com.bodamed.ussd.domain.beneficiary.BenefitAccount;
 import com.bodamed.ussd.domain.beneficiary.Premium;
+import com.bodamed.ussd.domain.user.User;
 import spark.Session;
 
 import java.util.List;
@@ -13,15 +15,14 @@ public class PayPremiumCommand extends Command {
     private String message;
     private List<Premium> premiums;
 
-    private int counter = 1;
-
-    public PayPremiumCommand(Session session, BenefitAccount benefitAccount) {
+    PayPremiumCommand(Session session, BenefitAccount benefitAccount) {
         super(session);
         this.benefitAccount = benefitAccount;
 
         StringBuilder builder = new StringBuilder();
         this.premiums = this.benefitAccount.getPremiums();
         for(final Premium premium : premiums) {
+            int counter = 1;
             builder.append(counter);
             builder.append(". ");
             builder.append(String.format(Locale.ENGLISH, "%s %s %.0f",premium.getType(),
@@ -40,7 +41,20 @@ public class PayPremiumCommand extends Command {
 
     @Override
     public Command handle(String choice) {
-        session.attribute("message", "END Pay Premium"); // Message
+        try {
+            final int intChoice = Integer.parseInt(choice);
+            final Premium premium = premiums.get(intChoice - 1);
+
+            User user = session.attribute("user");
+            BenefitAccount benefitAccount = BenefitApi.get().payPremium(user.getId(), premium);
+
+            if(benefitAccount.getId() > 0) {
+                session.attribute("message", "END " + "You have successfully paid premium for " + benefitAccount.getBenefit().getName()); // Message
+            }
+
+        } catch (Exception ex) {
+            session.attribute("message", "END " + "You have insufficient funds kindly save more to pay for " + benefitAccount.getBenefit().getName()); // Message
+        }
         return this;
     }
 }

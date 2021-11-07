@@ -40,6 +40,7 @@ public class BenefitCommand extends Command {
             if(!benefitAccount.getBenefit().isNHIF()){
                 commands.add(BenefitMenuCommand.LIMIT);
             }
+            commands.add(BenefitMenuCommand.PAY_PREMIUM);
             commands.add(BenefitMenuCommand.TERMS_AND_CONDITIONS);
             commands.add(BenefitMenuCommand.CHECK_STATUS);
         }
@@ -96,6 +97,17 @@ public class BenefitCommand extends Command {
             @Override
             public String toString() {
                 return "Terms And Conditions";
+            }
+        },
+        PAY_PREMIUM {
+            @Override
+            Command execute(Session session, BenefitAccount account) {
+                return new PayPremiumCommand(session, account);
+            }
+
+            @Override
+            public String toString() {
+                return "Pay Premium";
             }
         },
         CHECK_STATUS {

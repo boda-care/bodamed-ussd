@@ -62,6 +62,11 @@ public class BenefitApi {
         return Constants.createPostRequest(url, premium, Finance.class);
     }
 
+    public BenefitAccount payPremium(long userId, Premium premium) {
+        final String url = Constants.payPremium.concat("?userId=").concat(Long.toString(userId));
+        return Constants.createPostRequest(url, premium, BenefitAccount.class);
+    }
+
     public Finance payForExpiredAccount(AccountPremiumDTO accountPremiumDTO) {
         return Constants.createPostRequest(Constants.payForExpiredAccount, accountPremiumDTO, Finance.class);
     }

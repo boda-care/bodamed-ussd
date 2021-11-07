@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="12fbacc0-26e9-49fb-9fc4-3a9e23dfccd8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/AboutCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/AboutCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/RegisterCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/RegisterCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/api/BenefitApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/api/BenefitApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/BenefitCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/BenefitCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/PayPremiumCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bodamed/ussd/comands/benefit/PayPremiumCommand.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -76,7 +78,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1568477569506" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.General" />
