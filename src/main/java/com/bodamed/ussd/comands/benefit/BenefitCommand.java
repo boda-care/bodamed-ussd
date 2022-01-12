@@ -21,7 +21,7 @@ public class BenefitCommand extends Command {
 
         builder.append(String.format("CON %s \n", benefitAccount.getBenefit().getName()));
 
-        if(account.getBenefit().isInsurance() && account.canPayPremium()) {
+        if(account.getBenefit().isInsurance() && account.canPayPremium() && account.getBenefit().isRequiresActivation()) {
             // Premium Payable For The Day
             List<Premium> dailyPremiums = benefitAccount.getPremiums().stream()
                     .filter(dailyPremium -> dailyPremium.getType() == Premium.Type.DAILY).collect(Collectors.toList());

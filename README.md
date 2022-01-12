@@ -1,4 +1,4 @@
-# Boda Care USSD
+# BodaMax USSD
 USSD by Maxports Merchants Limited
 
 ## Problem Definition  & Recognition
@@ -7,7 +7,7 @@ USSD by Maxports Merchants Limited
 - The platform allows them to save as low as Ksh 50 per day for their insurance covers
 
 ## Problem Solution
-- Boda Care includes 2 insurance covers NHIF and Third Party Insurance that will be payed by the boda boda rider through Boda Care
+- BodaMax includes 2 insurance covers NHIF and Third Party Insurance that will be payed by the boda boda rider through BodaMax
 
 ## Software Design
 - We have 3 system Account Service, USSD

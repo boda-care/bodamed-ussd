@@ -65,6 +65,30 @@ public class Premium {
             public String toString() {
                 return "Activation";
             }
+        },
+        WEEKLY {
+            @Override
+            public String toString() {
+                return "Weekly";
+            }
+        },
+        MONTHLY {
+            @Override
+            public String toString() {
+                return "Monthly";
+            }
+        },
+        YEARLY {
+            @Override
+            public String toString() {
+                return "Yearly";
+            }
+        },
+        SEMI_YEARLY {
+            @Override
+            public String toString() {
+                return "Half Year";
+            }
         }
     }
 }

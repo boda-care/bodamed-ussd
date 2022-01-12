@@ -21,7 +21,7 @@ public class ResetPinCommand extends Command {
     @Override
     public Command handle(String choice) {
         if(choice.equals("99")) {
-            session.attribute("message", "END Thank you for using Boda Care");
+            session.attribute("message", "END Thank you for using BodaMax");
         } else {
             if(choice.length() >= 4) {
                 // Choice
@@ -33,7 +33,7 @@ public class ResetPinCommand extends Command {
                     final User user = UserApi.get().resetPin(sessionUser, choice);
                     if(user.getId() != 0) {
                         session.attribute("message", "END Successfully Reset Pin. " +
-                                "You shall receive a confirmation message. Thank you for using Boda Care");
+                                "You shall receive a confirmation message. Thank you for using BodaMax");
                     } else {
                         session.attribute("message", "END Sorry an error occurred");
                     }

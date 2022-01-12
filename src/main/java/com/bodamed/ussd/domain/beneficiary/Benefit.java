@@ -10,6 +10,8 @@ public class Benefit {
     private String name;
     private Type programType;
     private int id;
+    private boolean requiresActivation;
+
     private List<InsurancePackage> insurancePackages;
 
     public String getName() {
@@ -58,6 +60,10 @@ public class Benefit {
 
     public List<InsurancePackage> getInsurancePackages() {
         return insurancePackages;
+    }
+
+    public boolean isRequiresActivation() {
+        return requiresActivation;
     }
 
     public enum Type{

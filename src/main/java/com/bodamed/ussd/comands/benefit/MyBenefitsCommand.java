@@ -42,12 +42,12 @@ public class MyBenefitsCommand extends Command {
                 }
             }
 
-            if(isAcceptedPremium) {
-                saveChoice = counter;
-                builder.append(saveChoice);
-                builder.append(". ");
-                builder.append("Pay");
-            }
+//            if(isAcceptedPremium) {
+//                saveChoice = counter;
+//                builder.append(saveChoice);
+//                builder.append(". ");
+//                builder.append("Pay");
+//            }
 
             builder.append("\n\n0. Back");
             message = builder.toString();
@@ -76,11 +76,12 @@ public class MyBenefitsCommand extends Command {
         if(!isAcceptedPremium) {
             User user = session.attribute("user");
             BenefitApi.get().acceptTermsAndConditions(user.getId(), accounts.get(0));
-            session.attribute("message", "CON T&Cs Accepted. Welcome to Boda Care\n\n0. My Benefits");
+            session.attribute("message", "CON T&Cs Accepted. Welcome to BodaMax\n\n0. My Benefits");
             return this;
-        } else if (Integer.parseInt(choice) == saveChoice) {
-            return new SaveCommand(session, this.accounts);
-        }
+       }
+//        else if (Integer.parseInt(choice) == saveChoice) {
+//            return new SaveCommand(session, this.accounts);
+//        }
         return new BenefitCommand(session, accounts.get(Integer.parseInt(choice) - 1));
     }
 }

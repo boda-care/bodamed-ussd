@@ -41,7 +41,7 @@ public class TermsAndConditionCommand extends Command {
             }
             return this;
         } else if (choice.equals("99")) {
-            session.attribute("message", "END Thank you for choosing Boda Care");
+            session.attribute("message", "END Thank you for choosing BodaMax");
             return this;
         }
         return new MenuCommand(session);

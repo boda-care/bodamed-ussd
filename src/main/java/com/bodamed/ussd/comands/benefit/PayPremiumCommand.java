@@ -5,6 +5,7 @@ import com.bodamed.ussd.comands.Command;
 import com.bodamed.ussd.domain.beneficiary.BenefitAccount;
 import com.bodamed.ussd.domain.beneficiary.Premium;
 import com.bodamed.ussd.domain.user.User;
+import com.google.gson.Gson;
 import spark.Session;
 
 import java.util.List;
@@ -21,8 +22,8 @@ public class PayPremiumCommand extends Command {
 
         StringBuilder builder = new StringBuilder();
         this.premiums = this.benefitAccount.getPremiums();
+        int counter = 1;
         for(final Premium premium : premiums) {
-            int counter = 1;
             builder.append(counter);
             builder.append(". ");
             builder.append(String.format(Locale.ENGLISH, "%s %s %.0f",premium.getType(),
@@ -30,6 +31,8 @@ public class PayPremiumCommand extends Command {
             builder.append("\n");
             counter++;
         }
+        builder.append("\n");
+        builder.append("0. Back");
         this.message = builder.toString();
         session.attribute("message", "CON " + message); // Message
     }
@@ -48,12 +51,16 @@ public class PayPremiumCommand extends Command {
             User user = session.attribute("user");
             BenefitAccount benefitAccount = BenefitApi.get().payPremium(user.getId(), premium);
 
-            if(benefitAccount.getId() > 0) {
-                session.attribute("message", "END " + "You have successfully paid premium for " + benefitAccount.getBenefit().getName()); // Message
-            }
+            System.out.println(new Gson().toJson(benefitAccount));
+
+            this.message = "END " + "You have successfully paid premium for " + benefitAccount.getBenefit().getName();
+            session.attribute("message", this.message); // Message
 
         } catch (Exception ex) {
-            session.attribute("message", "END " + "You have insufficient funds kindly save more to pay for " + benefitAccount.getBenefit().getName()); // Message
+            System.out.println(ex.getMessage());
+            this.message = "END " + "An error occurred paying for  " + benefitAccount.getBenefit().getName();
+
+            session.attribute("message", this.message); // Message
         }
         return this;
     }

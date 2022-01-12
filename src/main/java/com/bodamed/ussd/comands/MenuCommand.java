@@ -13,7 +13,7 @@ public class MenuCommand extends Command {
         User user = session.attribute("user");
         this.isAgent = user.isAgent();
 
-        message = "CON 1. My Benefits\n";
+        message = "CON Welcome To BodaMax \n\n1. Benefits\n";
 
         if(this.isAgent) { // Add register command
             message +=  "2. Agent \n3. About";

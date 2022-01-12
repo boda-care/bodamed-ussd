@@ -23,7 +23,7 @@ public class RegisterCommand extends Command {
 
     public RegisterCommand(Session session) {
         super(session);
-        this.message = "CON 1 to Register for BODA CARE";
+        this.message = "CON 1 to Register for BodaMax";
         session.attribute("message",message);
     }
 

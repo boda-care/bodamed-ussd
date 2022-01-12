@@ -18,7 +18,7 @@ public class BenefitAccount {
     private String expiryDate;
     private boolean termsAndConditionsAccepted;
     private Status status;
-    private List<Premium> premiums; // Current premiums expected by Boda Care.
+    private List<Premium> premiums; // Current premiums expected by BodaMax.
 
     public void setId(long id) {
         this.id = id;
@@ -33,7 +33,7 @@ public class BenefitAccount {
     }
 
     public long getId() {
-        return id;
+        return this.id;
     }
 
     public void setInsurancePackageId(long insurancePackageId) {

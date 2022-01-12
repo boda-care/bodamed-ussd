@@ -38,7 +38,7 @@ public class SetPinCommand extends Command {
                 }
             }
         } catch (Exception ex) {
-            this.message = "END An error occurred kindly contact support.\nThank you for Choosing Boda Care";
+            this.message = "END An error occurred kindly contact support.\nThank you for Choosing BodaMax";
             session.attribute("message", message);
         }
         return this;

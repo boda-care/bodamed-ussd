@@ -7,7 +7,6 @@ import com.bodamed.ussd.domain.beneficiary.Premium;
 import com.bodamed.ussd.domain.finance.TransactionType;
 import com.bodamed.ussd.domain.user.User;
 import com.bodamed.ussd.util.LipaMpesaDTO;
-import com.google.gson.Gson;
 import spark.Session;
 
 import java.util.List;
@@ -69,7 +68,7 @@ public class SaveCommand extends Command {
         lipaMpesaDTO.setAmount(amount);
         lipaMpesaDTO.setPhoneNumber(session.attribute("phoneNumber"));
         lipaMpesaDTO.setTransactionType(TransactionType.SAVINGS);
-        message = "END Thank You For Choosing Boda Care";
+        message = "END Thank You For Choosing BodaMax";
         session.attribute("message", message);
         FinanceApi.get().save(lipaMpesaDTO);
     }
@@ -118,7 +117,7 @@ public class SaveCommand extends Command {
             lipaMpesaDTO.setAmount(amount);
             lipaMpesaDTO.setPhoneNumber(session.attribute("phoneNumber"));
             lipaMpesaDTO.setTransactionType(TransactionType.SAVINGS);
-            message = "END Thank You For Choosing Boda Care";
+            message = "END Thank You For Choosing BodaMax";
             session.attribute("message", message);
             FinanceApi.get().save(lipaMpesaDTO);
         }
